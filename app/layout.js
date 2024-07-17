@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { UserWrapper } from "@/contexts/userContext";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({ children }) {
           <div className="bg-[#F1EFEB]">
             <Navbar />
             {children}
+            <Toaster />
           </div>
         </UserWrapper>
       </body>

@@ -1,6 +1,8 @@
+/** @format */
+
 "use client";
 import Link from "next/link";
-import { CircleUser, Menu, Package2} from "lucide-react";
+import { CircleUser, Menu, Package2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,8 +16,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUserContext } from "@/contexts/userContext";
 
 const Navbar = () => {
-  const {user} = useUserContext()
-  console.log("🚀 ~ Navbar ~ user:", user)
+  const { user } = useUserContext();
+  console.log("🚀 ~ Navbar ~ user:", user);
+  const userToken = localStorage.getItem("token");
   return (
     <>
       <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
@@ -120,7 +123,7 @@ const Navbar = () => {
             </div>
           </form> */}
           <div className="ml-auto">
-            {false ? (
+            {userToken ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button
@@ -144,12 +147,10 @@ const Navbar = () => {
             ) : (
               <div className="flex items-center gap-4">
                 <Button className="w-full bg-emerald-500 hover:bg-emerald-600">
-                  <Link href='/login'>Login</Link>
+                  <Link href="/login">Login</Link>
                 </Button>
-                <Button
-                className="w-full bg-emerald-500 hover:bg-emerald-600"
-                >
-                  <Link href='/registration'>Register</Link>
+                <Button className="w-full bg-emerald-500 hover:bg-emerald-600">
+                  <Link href="/registration">Register</Link>
                 </Button>
               </div>
             )}

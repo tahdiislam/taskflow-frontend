@@ -6,6 +6,7 @@ const UserContext = createContext(null);
 export function UserWrapper({ children }) {
 
   let [user, setUser] = useState("Guest");
+  
   const value = { user, setUser };
   return (
     <UserContext.Provider value={value}>
