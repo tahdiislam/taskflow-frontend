@@ -1,30 +1,11 @@
 /** @format */
-
-import Link from "next/link";
-import { CircleUser, Menu, Package2, Search } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+"use client";
+import Image from "next/image";
+import profile from "@/public/without_background_img.png";
+import { useUserContext } from "@/contexts/userContext";
 
 export default function Profile() {
+  const { user } = useUserContext();
   return (
     <div className="flex min-h-screen w-full flex-col">
       <main className="flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
@@ -41,9 +22,21 @@ export default function Profile() {
             <button className="text-start hover:underline">Integrations</button>
             <button className="text-start hover:underline">Support</button>
           </nav>
-          <div className="grid gap-6 bg-red-500">
-hello world
-
+          <div className="grid gap-6">
+            <div className="flex items-start justify-start gap-12">
+              <Image
+                className="w-36 h-36 rounded-full border-2 border-emerald-500"
+                src={profile}
+                alt="Profile"
+              />
+              <div className="pt-4 flex flex-col gap-2">
+                <h1 className="text-2xl font-semibold text-emerald-500">
+                  {user?.user?.first_name} {user?.user?.last_name}
+                </h1>
+                <p className="text-xl font-medium">Username: {user?.user?.username}</p>
+                <p className="text-xl font-medium">Email: {user?.user?.email}</p>
+              </div>
+            </div>
           </div>
         </div>
       </main>
