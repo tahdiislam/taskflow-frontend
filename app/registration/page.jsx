@@ -12,11 +12,15 @@ import { useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
+import { redirect } from "next/navigation";
+import { useUserContext } from "@/contexts/userContext";
 
 export default function Registration() {
   const [passError, setPassError] = useState("");
   const { toast } = useToast();
   const [submit, setSubmit] = useState(false);
+  const {user} = useUserContext()
+  if(user?.user?.id) redirect('/profile')
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (passError) return;

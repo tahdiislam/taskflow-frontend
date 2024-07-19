@@ -19,6 +19,7 @@ const Navbar = () => {
   const { user } = useUserContext();
   console.log("🚀 ~ Navbar ~ user:", user);
   const userToken = localStorage.getItem("token");
+  const admin = localStorage.getItem('admin')
   return (
     <>
       <header className="sticky top-0 flex h-16 items-center gap-4 bg-background px-4 md:px-6">
@@ -129,7 +130,7 @@ const Navbar = () => {
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="rounded-full"
+                    className="rounded-full border-2 border-emerald-500 "
                   >
                     <CircleUser className="h-5 w-5" />
                     <span className="sr-only">Toggle user menu</span>
@@ -139,10 +140,10 @@ const Navbar = () => {
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>              <Link
-                href="/profile"
+                href={`${admin ? '/admin': '/profile'}`}
                 className="text-muted-foreground hover:text-foreground"
               >
-                Profile
+                {admin ? 'Admin': 'Profile'}
               </Link></DropdownMenuItem>
                   <DropdownMenuItem>Support</DropdownMenuItem>
                   <DropdownMenuSeparator />

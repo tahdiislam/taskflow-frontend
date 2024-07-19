@@ -8,8 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import loginImg from "@/public/authetication/login.svg";
 import axios from "axios";
+import { redirect } from "next/navigation";
+import { useUserContext } from "@/contexts/userContext";
 
 export default function Login() {
+  const { user } = useUserContext();
+  if (user?.user?.id) {
+    if (localStorage.getItem("admin")) redirect("/admin");
+    redirect("/profile");
+  }
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
@@ -18,20 +25,20 @@ export default function Login() {
       password: form.password.value,
     };
     await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/login/`,
-        data
-      )
+      .post(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/login/`, data)
       .then((res) => {
-        console.log("🚀 ~ .then ~ res:", res)
-        if (res.status === 200) {
-          localStorage.setItem("token", res?.data?.token);
-          localStorage.setItem("user_id", res?.data?.user_id);
+        console.log("🚀 ~ .then ~ res:", res);
+        if (res.status === 200 && window !== "undefined") {
+          window.localStorage.setItem("token", res?.data?.token);
+          window.localStorage.setItem("user_id", res?.data?.user_id);
+          if (res?.data?.admin)
+            window.localStorage.setItem("admin", res?.data?.admin);
           // toast({
           //   title: "New Login",
           //   description: 'Successfully Login',
           // });
           form.reset();
+          window.location.reload();
         }
         // setSubmit(false);
       })
@@ -39,7 +46,7 @@ export default function Login() {
         // setSubmit(false);
         console.log(err);
       });
-    console.log("🚀 ~ handleSubmit ~ data:", data)
+    console.log("🚀 ~ handleSubmit ~ data:", data);
   };
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px">
@@ -57,7 +64,7 @@ export default function Login() {
                 type="text"
                 placeholder="robinson24"
                 required
-                name='username'
+                name="username"
               />
             </div>
             <div className="grid gap-2">
@@ -70,7 +77,13 @@ export default function Login() {
                   Forgot your password?
                 </Link> */}
               </div>
-              <Input placeholder='********' name="password" id="password" type="password" required />
+              <Input
+                placeholder="********"
+                name="password"
+                id="password"
+                type="password"
+                required
+              />
             </div>
             <Button
               type="submit"
