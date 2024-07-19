@@ -5,6 +5,7 @@ import FlowerBanner from "@/public/banner_flower.png";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { FlipWords } from "@/components/ui/flip-words";
+import Link from "next/link";
 
 export default function TopBanner() {
   const words = ["with", "with"];
@@ -21,7 +22,7 @@ export default function TopBanner() {
             <FlipWords words={words2} />
           </h1>
           <button className="text-base border-2 border-lime-800 py-3 px-6 rounded-xl hover:bg-lime-800 hover:text-white transition ease-in-out duration-500">
-            SHOP NOW
+            <Link href="/flower">SHOP NOW</Link>
           </button>
         </div>
         <div>

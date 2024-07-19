@@ -35,13 +35,13 @@ const Navbar = () => {
             href="/"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Dashboard
+            Home
           </Link>
           <Link
-            href="#"
+            href="/flower"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Orders
+            Flowers
           </Link>
           <Link
             href="#"
