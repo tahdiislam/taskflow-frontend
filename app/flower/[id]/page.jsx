@@ -10,7 +10,6 @@ export default async function Profile({ params }) {
     `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/flower/list/${params?.id}`
   );
   const flower = await response.json();
-  console.log("🚀 ~ Profile ~ flowers:", flower);
   return (
     <div className="w-full p-4">
       <div className="w-10/12 grid grid-cols-2 gap-8 mx-auto">

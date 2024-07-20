@@ -5,6 +5,7 @@ import "./globals.css";
 import Navbar from "@/components/navbar";
 import { UserWrapper } from "@/contexts/userContext";
 import { Toaster } from "@/components/ui/toaster";
+import Footer from "@/components/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
           <div className="bg-[#F1EFEB]">
             <Navbar />
             {children}
+            <Footer/>
             <Toaster />
           </div>
         </UserWrapper>
