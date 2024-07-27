@@ -1,10 +1,4 @@
 /** @format */
-
-import * as React from "react";
-import FlowerBanner from "@/public/banner_flower.png";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { FlipWords } from "@/components/ui/flip-words";
 import Link from "next/link";
 
 export default function Footer() {
