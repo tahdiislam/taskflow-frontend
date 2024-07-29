@@ -8,6 +8,18 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Loader2 } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast"
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -17,9 +29,12 @@ const TABS = {
 export default function Admin() {
   const { user } = useUserContext();
   const [selectedTab, setSelectedTabs] = useState(
-    localStorage.getItem("profile_tab") || TABS.DETAILS
+    localStorage.getItem("profile_tab") || TABS.ORDER_HISTORY
   );
   const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [id, setId] = useState(null);
+  const { toast } = useToast()
   if (!user?.user?.id) redirect("/login");
   if (!localStorage.getItem("admin")) redirect("/profile");
   // tab change handler
@@ -39,31 +54,38 @@ export default function Admin() {
       })
       .catch((err) => {
         console.log(err);
-      });
+  });
   useEffect(() => {
     if (orders?.length < 1) handleLoadOrders();
   }, [user?.id]);
 
   const handleChangeOrderStatus = async (id) => {
-    await alert(
-      "Do you want to change the order status 'Pending' to 'Completed'?"
-    );
+    setLoading((prev) => true);
+    setId((prev) => id);
     await axios
-      .get(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/change-status/${id}`
+      .put(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/status/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem("token")}`,
+          }
+        }
       )
       .then((res) => {
-        console.log("🚀 ~ .then ~ res:", res);
-        // if (res.status === 200 && window !== "undefined") {
-        //   window.location.reload();
-        // }
+        setLoading((prev) => false);
+        setId((prev) => null);
+        if (res.status === 200) {
+          toast({
+            title: "Status has been Changed",
+          })
+          handleLoadOrders();
+        }
       })
       .catch((err) => {
+        setLoading((prev) => false);
+        setId((prev) => null);
         console.log(err);
       });
-    if (window !== "undefined") {
-      await window.location.reload();
-    }
   };
   return (
     <div className="flex w-full flex-col">
@@ -132,21 +154,48 @@ export default function Admin() {
                   <tbody className="text-center">
                     {orders?.map((order) => (
                       <tr key={order?.id} className="border-2 border-lime-800">
-                        <td className="py-2">{order?.id}</td>
+                        <td className="py-3">{order?.id}</td>
                         <td>
                           {order?.status === "Pending" ? (
-                            <Button
-                              size="sm"
-                              className="bg-red-600 text-white"
-                              onClick={() => handleChangeOrderStatus(order?.id)}
-                            >
-                              {order?.status}
-                            </Button>
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                {loading && order?.id === id ? (
+                                  <Button className='bg-lime-600' disabled size="sm">
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin " />
+                                    Please wait
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    size="sm"
+                                    className="bg-red-600 text-white"
+                                  >
+                                    {order?.status}
+                                  </Button>
+                                )}
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>
+                                    Are you sure?
+                                  </AlertDialogTitle>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() =>
+                                      handleChangeOrderStatus(order?.id)
+                                    }
+                                    className="bg-green-500 hover:bg-green-600"
+                                  >
+                                    Continue
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
                           ) : (
                             <Button
                               size="sm"
-                              disabled
-                              className="disabled:bg-green-600 text-white"
+                              className="bg-lime-700 hover:bg-lime-700 text-white cursor-no-drop"
                             >
                               {order?.status}
                             </Button>

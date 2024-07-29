@@ -14,16 +14,14 @@ export default function TopBanner() {
   return (
     <section className="h-[90vh]">
       <div className="flex justify-between items-center px-28">
-        <div className="space-y-4">
+        <div >
           <h1 className="text-6xl italic">
             <span>We tell stories</span>
             <br />
             <FlipWords words={words} />
             <FlipWords words={words2} />
           </h1>
-          <button className="text-base border-2 border-lime-800 py-3 px-6 rounded-xl hover:bg-lime-800 hover:text-white transition ease-in-out duration-500">
-            <Link href="/flower">SHOP NOW</Link>
-          </button>
+          <Link href="/flower" ><button className="text-base border-2 border-lime-800 py-3 px-6 rounded-xl hover:bg-lime-800 hover:text-white transition ease-in-out duration-500 mt-4">SHOP NOW</button></Link>
         </div>
         <div>
           <Image
