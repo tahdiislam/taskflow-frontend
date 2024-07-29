@@ -7,6 +7,15 @@ import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -96,32 +105,38 @@ export default function Profile() {
             ) : (
               <section>
                 <h1 className="text-3xl font-bold py-4">Order History</h1>
-                <table width="1000">
-                  <thead>
-                    <tr className="border-2 border-emerald-500">
-                      <th  className="py-2">Id</th>
-                      <th>Status</th>
-                      <th>Quantity</th>
-                      <th>Total Price</th>
-                      <th>Created Date</th>
-                      <th>Flower</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-center">
-                    {
-                      orders?.map((order) => <tr key={order?.id} className="border-2 border-emerald-500">
-                      <td className="py-2">{order?.id}</td>
-                      <td>{order?.status}</td>
-                      <td>{order?.quantity}</td>
-                      <td>{order?.total_price}</td>
-                      <td>{order?.created_at}</td>
-                      <td>
-                        <Link className="text-emerald-600 hover:text-emerald-500 hover:underline" href={`/flower/details/${order?.flower?.id}`}>{order?.flower?.title}</Link>
-                      </td>
-                    </tr>)
-                    }
-                  </tbody>
-                </table>
+                <Table className='text-center'>
+                  <TableCaption>A list of your recent orders</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className='text-center'>Id</TableHead>
+                      <TableHead className='text-center'>Status</TableHead>
+                      <TableHead className='text-center'>Quantity</TableHead>
+                      <TableHead className='text-center'>Total Price</TableHead>
+                      <TableHead className='text-center'>Created at</TableHead>
+                      <TableHead className='text-center'>Flower</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {orders.map((order) => (
+                      <TableRow key={order.invoice}>
+                        <TableCell>{order?.id}</TableCell>
+                        <TableCell>{order?.status}</TableCell>
+                        <TableCell>{order?.quantity}</TableCell>
+                        <TableCell>{order?.total_price}</TableCell>
+                        <TableCell>{order?.created_at}</TableCell>
+                        <TableCell>
+                          <Link
+                            className="text-emerald-600 hover:text-emerald-500 hover:underline"
+                            href={`/flower/details/${order?.flower?.id}`}
+                          >
+                            {order?.flower?.title.slice(0, 20)}
+                          </Link>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </section>
             )}
           </div>

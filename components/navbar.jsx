@@ -18,7 +18,6 @@ import axios from "axios";
 
 const Navbar = () => {
   const { user, setUser } = useUserContext();
-  console.log("🚀 ~ Navbar ~ user:", user);
   const userToken = localStorage.getItem("token");
   const admin = localStorage.getItem("admin");
   // logout handler
