@@ -1,9 +1,16 @@
 /** @format */
+"use client";
+import { FallingLines } from "react-loader-spinner";
 
 export default function Loading() {
   return (
     <section className="h-screen flex justify-center items-center">
-      <h1 className="text-emerald-500 text-3xl font-semibold">Loading...</h1>
+      <FallingLines
+        color="#4fa94d"
+        width="100"
+        visible={true}
+        ariaLabel="falling-circles-loading"
+      />
     </section>
   );
 }

@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import dummyImage from "@/public/library.jpg";
+import dummyImage from "@/public/flower_1.png";
 import Link from "next/link";
 
 export default async function Profile() {
