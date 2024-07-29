@@ -14,12 +14,34 @@ import {
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUserContext } from "@/contexts/userContext";
+import axios from "axios";
 
 const Navbar = () => {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
   console.log("🚀 ~ Navbar ~ user:", user);
   const userToken = localStorage.getItem("token");
-  const admin = localStorage.getItem('admin')
+  const admin = localStorage.getItem("admin");
+  // logout handler
+  const handleLogout = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/logout/`, {
+        headers: {
+          Authorization: `Token ${userToken}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200 && typeof window !== "undefined") {
+          window.localStorage.removeItem("token");
+          window.localStorage.removeItem("user_id");
+          window.localStorage.removeItem("admin");
+          setUser(null);
+          console.log("successfully logout");
+        }
+      })
+      .catch((err) => {
+        console.log("logout error: ", err);
+      });
+  };
   return (
     <>
       <header className="top-0 flex h-16 items-center gap-4 bg-background px-4 md:px-6">
@@ -139,15 +161,20 @@ const Navbar = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>              <Link
-                href={`${admin ? '/admin': '/profile'}`}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                {admin ? 'Admin': 'Profile'}
-              </Link></DropdownMenuItem>
+                  <DropdownMenuItem>
+                    {" "}
+                    <Link
+                      href={`${admin ? "/admin" : "/profile"}`}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      {admin ? "Admin" : "Profile"}
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Support</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Logout</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout}>
+                    Logout
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
