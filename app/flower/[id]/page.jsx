@@ -1,15 +1,54 @@
 /** @format */
-
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import dummyImage from "@/public/flower_1.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useUserContext } from "@/contexts/userContext";
 
-export default async function Profile({ params }) {
-  console.log("🚀 ~ Profile ~ params:", params);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/flower/list/${params?.id}`
-  );
-  const flower = await response.json();
+export default function Profile({ params }) {
+  const { user } = useUserContext();
+  const [flower, setFlower] = useState(null);
+
+  const handleLoadOrders = () =>
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/flower/list/${params.id}`
+      )
+      .then((res) => {
+        setFlower((prev) => res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  useEffect(() => {
+    if (!flower) handleLoadOrders();
+  }, [params?.id]);
+
+  const handleOrder = () => {
+    const data = {
+      customer: user?.id,
+      flower: flower?.id,
+      quantity: 2,
+      total_price: flower?.price * 1,
+    };
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/create/`, data, {
+        headers: {
+          Authorization: `Token ${localStorage.getItem("token")}`,
+        }
+      })
+      .then((res) => {
+        // console.log(res.data);
+        if (res.status === 200 && typeof window !== "undefined") {
+          window.location.replace(res?.data?.redirect_url)
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div className="w-full p-4">
       <div className="w-10/12 grid grid-cols-2 gap-8 mx-auto">
@@ -21,10 +60,20 @@ export default async function Profile({ params }) {
         />
         <div className="flex flex-col justify-start gap-6">
           <h3 className="text-3xl font-medium">{flower?.title}</h3>
-          <h3 className="text-xl font-medium bg-emerald-500 text-white px-7 py-1 rounded-full w-min shadow-inner shadow-emerald-800">{flower?.category}</h3>
-          <h2 className="text-3xl font-semibold text-emerald-600">Price: ${flower?.price}</h2>
-          <h2 className="text-3xl font-medium">Available: {flower?.available}</h2>
-          <Button size='lg' className="w-5/6 bg-emerald-500 hover:bg-emerald-600 uppercase text-xl">
+          <h3 className="text-xl font-medium bg-emerald-500 text-white px-7 py-1 rounded-full w-min shadow-inner shadow-emerald-800">
+            {flower?.category}
+          </h3>
+          <h2 className="text-3xl font-semibold text-emerald-600">
+            Price: ${flower?.price}
+          </h2>
+          <h2 className="text-3xl font-medium">
+            Available: {flower?.available}
+          </h2>
+          <Button
+            size="lg"
+            className="w-5/6 bg-emerald-500 hover:bg-emerald-600 uppercase text-xl"
+            onClick={handleOrder}
+          >
             Buy Now
           </Button>
         </div>

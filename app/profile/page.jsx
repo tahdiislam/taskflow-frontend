@@ -22,8 +22,9 @@ const TABS = {
   ORDER_HISTORY: "ORDER_HISTORY",
 };
 
-export default function Profile() {
+export default function Profile({params}) {
   const { user } = useUserContext();
+  
   const [selectedTab, setSelectedTabs] = useState(
     localStorage.getItem("profile_tab") || TABS.DETAILS
   );
