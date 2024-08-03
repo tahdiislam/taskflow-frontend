@@ -17,20 +17,28 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { format } from "date-fns";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const TABS = {
   DETAILS: "DETAILS",
   ORDER_HISTORY: "ORDER_HISTORY",
 };
 
-export default function Profile({params}) {
+export default function Profile({ params }) {
   const { user } = useUserContext();
-  
   const [selectedTab, setSelectedTabs] = useState(
     localStorage.getItem("profile_tab") || TABS.DETAILS
   );
-  const [orders, setOrders] = useState([]);
-  // if (!user?.user?.id) redirect("/login");
+  const [orders, setOrders] = useState({});
+  const [page, setPage] = useState(1);
+  if (!user?.user?.id) redirect("/login");
   // tab change handler
   const handleChangeTab = (tab) => {
     if (selectedTab !== tab && window !== "undefined") {
@@ -38,10 +46,13 @@ export default function Profile({params}) {
       window.localStorage.setItem("profile_tab", tab);
     }
   };
-  const handleLoadOrders = () =>
+  const handleLoadOrders = (pg = 1) => {
+    if (!user?.id) return;
+    if (pg < 1 || pg > Math.ceil(parseFloat(orders?.count / 8))) return;
+    setPage((prev) => pg);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/list/?customer_id=${user?.id}`
+        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/list/?customer_id=${user?.id}&page=${pg}`
       )
       .then((res) => {
         if (res.status === 200) {
@@ -51,11 +62,13 @@ export default function Profile({params}) {
       .catch((err) => {
         console.log(err);
       });
+  };
   useEffect(() => {
-    if (orders?.length < 1) handleLoadOrders();
+    if (!orders?.count) handleLoadOrders();
   }, [user?.id]);
 
-  const formattedDate = (isoDateString) => format(new Date(isoDateString), 'MMMM dd, yyyy HH:mm:ss a');
+  const formattedDate = (isoDateString) =>
+    format(new Date(isoDateString), "MMMM dd, yyyy HH:mm:ss a");
   return (
     <div className="flex w-full flex-col">
       <main className="flex min-h-[calc(70vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
@@ -109,30 +122,32 @@ export default function Profile({params}) {
             ) : (
               <section>
                 <h1 className="text-3xl font-bold py-4">Order History</h1>
-                <Table className='text-center'>
+                <Table className="text-center">
                   <TableCaption>A list of your recent orders</TableCaption>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className='text-center'>Id</TableHead>
-                      <TableHead className='text-center'>Status</TableHead>
-                      <TableHead className='text-center'>Quantity</TableHead>
-                      <TableHead className='text-center'>Total Price</TableHead>
-                      <TableHead className='text-center'>Created at</TableHead>
-                      <TableHead className='text-center'>Flower</TableHead>
+                      <TableHead className="text-center">Id</TableHead>
+                      <TableHead className="text-center">Status</TableHead>
+                      <TableHead className="text-center">Quantity</TableHead>
+                      <TableHead className="text-center">Total Price</TableHead>
+                      <TableHead className="text-center">Created at</TableHead>
+                      <TableHead className="text-center">Flower</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {orders.map((order) => (
-                      <TableRow key={order.invoice}>
+                    {orders?.results?.map((order) => (
+                      <TableRow key={order.id}>
                         <TableCell>{order?.id}</TableCell>
                         <TableCell>{order?.status}</TableCell>
                         <TableCell>{order?.quantity}</TableCell>
                         <TableCell>{order?.total_price}</TableCell>
-                        <TableCell>{formattedDate(order?.created_at)}</TableCell>
+                        <TableCell>
+                          {formattedDate(order?.created_at)}
+                        </TableCell>
                         <TableCell>
                           <Link
                             className="text-emerald-600 hover:text-emerald-500 hover:underline"
-                            href={`/flower/details/${order?.flower?.id}`}
+                            href={`/flower/${order?.flower?.id}`}
                           >
                             {order?.flower?.title.slice(0, 20)}
                           </Link>
@@ -141,6 +156,36 @@ export default function Profile({params}) {
                     ))}
                   </TableBody>
                 </Table>
+                <Pagination className="my-6">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        className={"cursor-pointer"}
+                        onClick={() => handleLoadOrders(page - 1)}
+                      />
+                    </PaginationItem>
+                    {Array(Math.ceil(parseFloat(orders?.count / 8)) || 1)
+                      ?.fill()
+                      ?.map((_, index) => index + 1)
+                      ?.map((num) => (
+                        <PaginationItem key={num}>
+                          <PaginationLink
+                            onClick={() => handleLoadOrders(num)}
+                            isActive={page === num}
+                            className={"cursor-pointer"}
+                          >
+                            {num}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        className={"cursor-pointer"}
+                        onClick={() => handleLoadOrders(page + 1)}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </section>
             )}
           </div>

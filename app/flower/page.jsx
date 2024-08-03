@@ -81,7 +81,7 @@ export default function Flowers() {
               <PaginationItem key={num}>
                 <PaginationLink
                   onClick={() => handleLoadFlowers(num)}
-                  isActive
+                  isActive={num === page}
                   className={"cursor-pointer"}
                 >
                   {num}

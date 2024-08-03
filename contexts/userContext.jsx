@@ -25,7 +25,7 @@ export function UserWrapper({ children }) {
       .then((res) => {
         // console.log("🚀 ~ .then ~ res:", res);
         if (res.status === 200) {
-          setUser(res?.data[0]);
+          setUser(res?.data?.results[0]);
         }
       })
       .catch((err) => {

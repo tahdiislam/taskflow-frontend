@@ -1,16 +1,12 @@
 /** @format */
 "use client";
-import { FallingLines } from "react-loader-spinner";
+import { quantum } from 'ldrs'
+quantum.register()
 
 export default function Loading() {
   return (
     <section className="h-screen flex justify-center items-center">
-      <FallingLines
-        color="#4fa94d"
-        width="100"
-        visible={true}
-        ariaLabel="falling-circles-loading"
-      />
+      <l-quantum size="50" speed="1.75" color="#0DFB09"></l-quantum>
     </section>
   );
 }

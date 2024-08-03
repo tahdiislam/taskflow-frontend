@@ -39,6 +39,13 @@ const Navbar = () => {
       })
       .catch((err) => {
         console.log("logout error: ", err);
+      })
+      .finally(() => {
+        window.localStorage.removeItem("token");
+        window.localStorage.removeItem("user_id");
+        window.localStorage.removeItem("admin");
+        setUser(null);
+        // window.location.reload();
       });
   };
   return (

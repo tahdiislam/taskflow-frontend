@@ -19,7 +19,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/components/ui/use-toast";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -31,10 +32,11 @@ export default function Admin() {
   const [selectedTab, setSelectedTabs] = useState(
     localStorage.getItem("profile_tab") || TABS.ORDER_HISTORY
   );
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState({});
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null);
-  const { toast } = useToast()
+  const { toast } = useToast();
   if (!user?.user?.id) redirect("/login");
   if (!localStorage.getItem("admin")) redirect("/profile");
   // tab change handler
@@ -44,9 +46,12 @@ export default function Admin() {
       window.localStorage.setItem("profile_tab", tab);
     }
   };
-  const handleLoadOrders = () =>
+  const handleLoadOrders = (pg = 1) => {
+    if (!user?.id) return;
+    if (pg < 1 || pg > Math.ceil(parseFloat(orders?.count / 8))) return;
+    setPage((prev) => pg);
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/list/`)
+      .get(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/list/?page=${pg}`)
       .then((res) => {
         if (res.status === 200) {
           setOrders((prev) => res?.data);
@@ -54,21 +59,23 @@ export default function Admin() {
       })
       .catch((err) => {
         console.log(err);
-  });
+      });
+  };
   useEffect(() => {
-    if (orders?.length < 1) handleLoadOrders();
+    if (!orders?.count) handleLoadOrders();
   }, [user?.id]);
 
   const handleChangeOrderStatus = async (id) => {
     setLoading((prev) => true);
     setId((prev) => id);
     await axios
-      .put(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/status/${id}`,
+      .put(
+        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/status/${id}`,
         {},
         {
           headers: {
             Authorization: `Token ${localStorage.getItem("token")}`,
-          }
+          },
         }
       )
       .then((res) => {
@@ -77,7 +84,7 @@ export default function Admin() {
         if (res.status === 200) {
           toast({
             title: "Status has been Changed",
-          })
+          });
           handleLoadOrders();
         }
       })
@@ -152,7 +159,7 @@ export default function Admin() {
                     </tr>
                   </thead>
                   <tbody className="text-center">
-                    {orders?.map((order) => (
+                    {orders?.results?.map((order) => (
                       <tr key={order?.id} className="border-2 border-lime-800">
                         <td className="py-3">{order?.id}</td>
                         <td>
@@ -160,7 +167,11 @@ export default function Admin() {
                             <AlertDialog>
                               <AlertDialogTrigger asChild>
                                 {loading && order?.id === id ? (
-                                  <Button className='bg-lime-600' disabled size="sm">
+                                  <Button
+                                    className="bg-lime-600"
+                                    disabled
+                                    size="sm"
+                                  >
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin " />
                                     Please wait
                                   </Button>
@@ -207,7 +218,7 @@ export default function Admin() {
                         <td>
                           <Link
                             className="text-lime-800 hover:text-lime-800 hover:underline"
-                            href={`/flower/details/${order?.flower?.id}`}
+                            href={`/flower/${order?.flower?.id}`}
                           >
                             {order?.flower?.title}
                           </Link>
@@ -216,6 +227,36 @@ export default function Admin() {
                     ))}
                   </tbody>
                 </table>
+                <Pagination className="my-6">
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        className={"cursor-pointer"}
+                        onClick={() => handleLoadOrders(page - 1)}
+                      />
+                    </PaginationItem>
+                    {Array(Math.ceil(parseFloat(orders?.count / 8)) || 1)
+                      ?.fill()
+                      ?.map((_, index) => index + 1)
+                      ?.map((num) => (
+                        <PaginationItem key={num}>
+                          <PaginationLink
+                            onClick={() => handleLoadOrders(num)}
+                            isActive={page === num}
+                            className={"cursor-pointer"}
+                          >
+                            {num}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        className={"cursor-pointer"}
+                        onClick={() => handleLoadOrders(page + 1)}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
               </section>
             )}
           </div>
