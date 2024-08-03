@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { format } from "date-fns";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -29,7 +30,7 @@ export default function Profile({params}) {
     localStorage.getItem("profile_tab") || TABS.DETAILS
   );
   const [orders, setOrders] = useState([]);
-  if (!user?.user?.id) redirect("/login");
+  // if (!user?.user?.id) redirect("/login");
   // tab change handler
   const handleChangeTab = (tab) => {
     if (selectedTab !== tab && window !== "undefined") {
@@ -53,6 +54,8 @@ export default function Profile({params}) {
   useEffect(() => {
     if (orders?.length < 1) handleLoadOrders();
   }, [user?.id]);
+
+  const formattedDate = (isoDateString) => format(new Date(isoDateString), 'MMMM dd, yyyy HH:mm:ss a');
   return (
     <div className="flex w-full flex-col">
       <main className="flex min-h-[calc(70vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
@@ -125,7 +128,7 @@ export default function Profile({params}) {
                         <TableCell>{order?.status}</TableCell>
                         <TableCell>{order?.quantity}</TableCell>
                         <TableCell>{order?.total_price}</TableCell>
-                        <TableCell>{order?.created_at}</TableCell>
+                        <TableCell>{formattedDate(order?.created_at)}</TableCell>
                         <TableCell>
                           <Link
                             className="text-emerald-600 hover:text-emerald-500 hover:underline"
