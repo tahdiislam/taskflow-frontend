@@ -45,15 +45,21 @@ export default function Flowers() {
             key={flower?.id}
             className="max-w-[350px] space-y-4 rounded-lg bg-white p-6 shadow-lg md:w-[350px] dark:bg-[#18181B]"
           >
-            <Image
-              width={200}
-              height={200}
-              className="h-[275px] w-[350px] rounded-lg object-cover"
-              src={dummyImage}
-              alt={flower?.title}
-            />
+            <picture className="rounded-lg overflow-hidden block">
+              <Image
+                width={200}
+                height={200}
+                className="h-[275px] w-[350px] rounded-lg object-cover hover:scale-110 ease-linear duration-200"
+                src={dummyImage}
+                alt={flower?.title}
+              />
+            </picture>
             <div className="grid gap-2">
-              <h1 className="text-lg font-semibold ">{flower?.title?.length <= 30 ? flower?.title : flower?.title?.slice(0, 30) + '...'}</h1>
+              <h1 className="text-lg font-semibold ">
+                {flower?.title?.length <= 30
+                  ? flower?.title
+                  : flower?.title?.slice(0, 30) + "..."}
+              </h1>
               <p className="text-sm text-gray-500 dark:text-white/60">
                 {flower?.description?.slice(0, 80)}...
               </p>
@@ -72,7 +78,10 @@ export default function Flowers() {
       <Pagination className="my-6">
         <PaginationContent>
           <PaginationItem>
-            <PaginationPrevious className={"cursor-pointer"} onClick={() => handleLoadFlowers(page - 1)} />
+            <PaginationPrevious
+              className={"cursor-pointer"}
+              onClick={() => handleLoadFlowers(page - 1)}
+            />
           </PaginationItem>
           {Array(Math.ceil(parseFloat(flowers?.count / 8)) || 1)
             ?.fill()
@@ -89,7 +98,10 @@ export default function Flowers() {
               </PaginationItem>
             ))}
           <PaginationItem>
-            <PaginationNext className={"cursor-pointer"} onClick={() => handleLoadFlowers(page+1)} />
+            <PaginationNext
+              className={"cursor-pointer"}
+              onClick={() => handleLoadFlowers(page + 1)}
+            />
           </PaginationItem>
         </PaginationContent>
       </Pagination>

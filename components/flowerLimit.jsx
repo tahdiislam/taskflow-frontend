@@ -32,7 +32,8 @@ export default function FlowersLimit() {
   });
   return (
     <div className="w-full p-4">
-      <h1 className="text-3xl font-bold p-4">All Flowers</h1>
+      <h1 className="text-3xl font-bold p-4">Top Selling Flowers</h1>
+      <Link href="/"></Link>
       <Carousel
         opts={{
           align: "start",
@@ -53,7 +54,7 @@ export default function FlowersLimit() {
                   <Image
                     width={200}
                     height={200}
-                    className="h-[275px] w-[350px] rounded-lg object-cover hover:scale-125 ease-linear duration-200"
+                    className="h-[275px] w-[350px] rounded-lg object-cover hover:scale-110 ease-linear duration-200"
                     src={dummyImage}
                     alt={flower?.title}
                   />

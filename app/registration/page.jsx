@@ -162,7 +162,7 @@ export default function Registration() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300"
+              className="w-full bg-lime-800 hover:bg-lime-700 transition-all duration-300 disabled:bg-lime-300"
               disabled={submit}
             >
               <Loader2
