@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <footer className="h-auto bg-[#F1EFEB] p-6 pb-4 rounded-t-xl text-[#6A6E49] list-none ">
+    <footer className="h-auto bg-[#F1EFEB] p-6 pb-4 rounded-t-xl text-[#6A6E49] list-none">
       <div className="grid grid-cols-4 pb-4">
         <div>
             <Image src={logo} alt="logo" width={100} height={100} />

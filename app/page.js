@@ -1,3 +1,4 @@
+import Events from "@/components/events"
 import FlowersLimit from "@/components/flowerLimit"
 import TopBanner from "@/components/topBanner"
 
@@ -6,6 +7,7 @@ export default function Home() {
     <section>
       <TopBanner/>
       <FlowersLimit/>
+      <Events/>
     </section>
   )
 }
