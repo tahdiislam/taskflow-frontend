@@ -25,7 +25,7 @@ export default function Login() {
       password: form.password.value,
     };
     await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/login/`, data)
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/login/`, data)
       .then((res) => {
         console.log("🚀 ~ .then ~ res:", res);
         if (res.status === 200 && window !== "undefined") {
@@ -65,7 +65,7 @@ export default function Login() {
                 placeholder="robinson24"
                 required
                 name="username"
-                defaultValue='tarak'
+                defaultValue="tarak"
               />
             </div>
             <div className="grid gap-2">
@@ -84,7 +84,7 @@ export default function Login() {
                 id="password"
                 type="password"
                 required
-                defaultValue='Peralo2061@reebsdcom'
+                defaultValue="Peralo2061@reebsdcom"
               />
             </div>
             <Button

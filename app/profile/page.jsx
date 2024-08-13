@@ -52,7 +52,7 @@ export default function Profile({ params }) {
     setPage((prev) => pg);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/list/?customer_id=${user?.id}&page=${pg}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/list/?customer_id=${user?.id}&page=${pg}`
       )
       .then((res) => {
         if (res.status === 200) {
@@ -132,6 +132,7 @@ export default function Profile({ params }) {
                       <TableHead className="text-center">Total Price</TableHead>
                       <TableHead className="text-center">Created at</TableHead>
                       <TableHead className="text-center">Flower</TableHead>
+                      <TableHead className="text-center">Details</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -150,6 +151,14 @@ export default function Profile({ params }) {
                             href={`/flower/${order?.flower?.id}`}
                           >
                             {order?.flower?.title.slice(0, 20)}
+                          </Link>
+                        </TableCell>
+                        <TableCell>
+                          <Link
+                            className="text-yellow-500 hover:text-yellow-600 hover:underline"
+                            href={`/order/${order?.id}`}
+                          >
+                            See more
                           </Link>
                         </TableCell>
                       </TableRow>

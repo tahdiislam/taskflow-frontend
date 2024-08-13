@@ -23,7 +23,7 @@ export default function Flowers() {
     setPage((prev) => pg);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/flower/list/?page=${pg}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/flower/list/?page=${pg}`
       )
       .then((res) => {
         setFlowers((prev) => res?.data);

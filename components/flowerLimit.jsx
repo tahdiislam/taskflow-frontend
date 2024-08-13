@@ -18,7 +18,7 @@ export default function FlowersLimit() {
 
   const handleLoadFlowers = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/flower/list/?limit=7`)
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/flower/list/?limit=7`)
       .then((res) => {
         setFlowers((prev) => res?.data);
       })

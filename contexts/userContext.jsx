@@ -20,7 +20,7 @@ export function UserWrapper({ children }) {
     if (!userId) return;
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/list/?user_id=${userId}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/list/?user_id=${userId}`
       )
       .then((res) => {
         // console.log("🚀 ~ .then ~ res:", res);

@@ -20,7 +20,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -51,7 +58,7 @@ export default function Admin() {
     if (pg < 1 || pg > Math.ceil(parseFloat(orders?.count / 8))) return;
     setPage((prev) => pg);
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/list/?page=${pg}`)
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/list/?page=${pg}`)
       .then((res) => {
         if (res.status === 200) {
           setOrders((prev) => res?.data);
@@ -70,7 +77,7 @@ export default function Admin() {
     setId((prev) => id);
     await axios
       .put(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/status/${id}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/status/${id}`,
         {},
         {
           headers: {

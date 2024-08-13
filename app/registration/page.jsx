@@ -19,8 +19,8 @@ export default function Registration() {
   const [passError, setPassError] = useState("");
   const { toast } = useToast();
   const [submit, setSubmit] = useState(false);
-  const {user} = useUserContext()
-  if(user?.user?.id) redirect('/profile')
+  const { user } = useUserContext();
+  if (user?.user?.id) redirect("/profile");
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (passError) return;
@@ -43,7 +43,7 @@ export default function Registration() {
     setPassError("");
     await axios
       .post(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/register/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/register/`,
         data
       )
       .then((res) => {

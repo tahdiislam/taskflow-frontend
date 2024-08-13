@@ -2,7 +2,7 @@
 
 "use client";
 import Link from "next/link";
-import { CircleUser, Menu} from "lucide-react";
+import { CircleUser, Menu } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,7 +25,7 @@ const Navbar = () => {
   // logout handler
   const handleLogout = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/customer/logout/`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/logout/`, {
         headers: {
           Authorization: `Token ${userToken}`,
         },
@@ -134,7 +134,10 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer"
+                  >
                     Logout
                   </DropdownMenuItem>
                 </DropdownMenuContent>

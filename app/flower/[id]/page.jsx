@@ -9,17 +9,17 @@ import { redirect } from "next/navigation";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 
-export default function Profile({ params }) {
+export default function Flower({ params }) {
   const { user } = useUserContext();
   const [flower, setFlower] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const quantityRef = useRef(null);
   const [loading, setLoading] = useState(false);
 
-  const handleLoadOrders = () =>
+  const handleLoadFlower = () =>
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/flower/list/${params.id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/flower/list/${params.id}`
       )
       .then((res) => {
         setFlower((prev) => res?.data);
@@ -28,7 +28,7 @@ export default function Profile({ params }) {
         console.log(err);
       });
   useEffect(() => {
-    if (!flower) handleLoadOrders();
+    if (!flower) handleLoadFlower();
   }, [params?.id]);
 
   const handleChangeQuantity = (e) => {
@@ -114,7 +114,7 @@ export default function Profile({ params }) {
       total_price: flower?.price * quantity,
     };
     axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEDN_URL_PROD}/order/create/`, data, {
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/create/`, data, {
         headers: {
           Authorization: `Token ${localStorage.getItem("token")}`,
         },
@@ -187,9 +187,7 @@ export default function Profile({ params }) {
             />
             <span>Buy Now</span>
           </button>
-          <p className="text-lg py-4 text-justify">
-            {flower?.description}
-          </p>
+          <p className="text-lg py-4 text-justify">{flower?.description}</p>
         </div>
       </div>
     </div>
