@@ -1,28 +1,13 @@
 /** @format */
-"use client";
 import Image from "next/image";
 import payment from "@/public/payment.png";
-import { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 
-export default function Order({ params }) {
-  const [order, setOrder] = useState(null);
-
-  const handleLoadOrder = () =>
-    axios
-      .get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/list/${params.id}`
-      )
-      .then((res) => {
-        setOrder((prev) => res?.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  useEffect(() => {
-    if (!order) handleLoadOrder();
-  }, [params?.id]);
+export default async function Order({ params }) {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/list/${params.id}`
+  );
+  const order = await response.json();
 
   return (
     <div className="w-9/12 p-4 xl:mt-10 xl:mb-20 mx-auto">

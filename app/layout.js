@@ -2,10 +2,11 @@
 
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbar";
+import dynamic from 'next/dynamic'
 import { UserWrapper } from "@/contexts/userContext";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/footer";
+const Navbar = dynamic(() => import('@/components/navbar'), { ssr: false })
 
 const inter = Inter({ subsets: ["latin"] });
 

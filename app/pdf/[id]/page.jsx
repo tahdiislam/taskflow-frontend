@@ -42,8 +42,6 @@ export default function Order({ params }) {
       html2pdf().from(element).set(opt).save().then(() => {
         router.push('/'); // Redirect to another page
       });
-    } else {
-      router.push('/'); // Redirect if the PDF has already been downloaded
     }
   }, [router, order]);
 
