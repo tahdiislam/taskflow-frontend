@@ -69,7 +69,7 @@ export default function Login() {
                 placeholder="robinson24"
                 required
                 name="username"
-                defaultValue="tarak"
+                // defaultValue="tarak"
               />
             </div>
             <div className="grid gap-2">
@@ -88,7 +88,7 @@ export default function Login() {
                 id="password"
                 type="password"
                 required
-                defaultValue="Peralo2061@reebsdcom"
+                // defaultValue="Peralo2061@reebsdcom"
               />
             </div>
             <Button
