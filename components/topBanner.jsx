@@ -12,10 +12,10 @@ export default function TopBanner() {
   const words2 = ["flowers", "gifts"];
 
   return (
-    <section className="h-[90vh]">
-      <div className="flex justify-between items-center px-28">
-        <div >
-          <h1 className="text-6xl italic">
+    <section className="lg:h-[90vh]">
+      <div className=" flex flex-col lg:flex-row justify-between items-center px-4 sm:px-10 md:px-20 lg:px-28">
+        <div className="py-10 md:py-12">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl italic">
             <span>We tell stories</span>
             <br />
             <FlipWords words={words} />
@@ -31,6 +31,7 @@ export default function TopBanner() {
               width: "100%",
               height: "90vh",
             }}
+            placeholder="blur"
           />
         </div>
       </div>

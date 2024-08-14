@@ -11,7 +11,7 @@ export default function Events() {
 
   return (
     <section className="bg-[#E6E8D6] my-20">
-      <div className="grid grid-cols-2 justify-between items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-2 justify-between items-center">
         <div>
           <Image
             src={flowers}
@@ -20,6 +20,7 @@ export default function Events() {
               width: "100%",
               height: "95vh",
             }}
+            placeholder="blur"
           />
         </div>
         <div className="p-20">
