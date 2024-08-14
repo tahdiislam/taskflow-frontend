@@ -34,14 +34,17 @@ const TABS = {
 export default function Profile({ params }) {
   const { user } = useUserContext();
   const [selectedTab, setSelectedTabs] = useState(
-    localStorage.getItem("profile_tab") || TABS.DETAILS
+    (typeof window !== "undefined" &&
+      window.localStorage.getItem("profile_tab")) ||
+      TABS.ORDER_HISTORY
   );
+
   const [orders, setOrders] = useState({});
   const [page, setPage] = useState(1);
   if (!user?.user?.id) redirect("/login");
   // tab change handler
   const handleChangeTab = (tab) => {
-    if (selectedTab !== tab && window !== "undefined") {
+    if (selectedTab !== tab && typeof window !== "undefined") {
       setSelectedTabs((prev) => tab);
       window.localStorage.setItem("profile_tab", tab);
     }

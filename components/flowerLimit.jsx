@@ -55,7 +55,7 @@ export default function FlowersLimit() {
                     width={200}
                     height={200}
                     className="h-[275px] w-[350px] rounded-lg object-cover hover:scale-110 ease-linear duration-200"
-                    src={dummyImage}
+                    src={flower?.image}
                     alt={flower?.title}
                   />
                 </picture>
@@ -66,7 +66,7 @@ export default function FlowersLimit() {
                       : flower?.title?.slice(0, 30) + "..."}
                   </h1>
                   <p className="text-sm text-gray-500 dark:text-white/60">
-                    {flower?.description?.slice(0, 80)}...
+                    {flower?.description?.slice(0, 65)}...
                   </p>
                   <div className="text-2xl font-semibold">৳{flower?.price}</div>
                 </div>

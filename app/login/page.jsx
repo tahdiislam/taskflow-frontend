@@ -8,14 +8,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import loginImg from "@/public/authetication/login.svg";
 import axios from "axios";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
+import { useState } from "react";
 
 export default function Login() {
   const { user } = useUserContext();
+  const router = useRouter()
+  const [admin, setAdmin] = useState(typeof window !== "undefined" &&
+    window.localStorage.getItem("admin") || null);
   if (user?.user?.id) {
-    if (localStorage.getItem("admin")) redirect("/admin");
-    redirect("/profile");
+    if (admin) router.push("/admin");
+    router.push("/profile");
   }
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +32,7 @@ export default function Login() {
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/login/`, data)
       .then((res) => {
         console.log("🚀 ~ .then ~ res:", res);
-        if (res.status === 200 && window !== "undefined") {
+        if (res.status === 200 && typeof window !== "undefined") {
           window.localStorage.setItem("token", res?.data?.token);
           window.localStorage.setItem("user_id", res?.data?.user_id);
           if (res?.data?.admin)

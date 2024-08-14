@@ -20,8 +20,10 @@ import logo from "@/public/logo.png";
 
 const Navbar = () => {
   const { user, setUser } = useUserContext();
-  const userToken = localStorage.getItem("token");
-  const admin = localStorage.getItem("admin");
+  const userToken =
+    typeof window !== "undefined" && window.localStorage.getItem("token");
+  const admin =
+    typeof window !== "undefined" && window.localStorage.getItem("admin");
   // logout handler
   const handleLogout = () => {
     axios
@@ -43,9 +45,11 @@ const Navbar = () => {
         console.log("logout error: ", err);
       })
       .finally(() => {
-        window.localStorage.removeItem("token");
-        window.localStorage.removeItem("user_id");
-        window.localStorage.removeItem("admin");
+        if (typeof window !== "undefined") {
+          window.localStorage.removeItem("token");
+          window.localStorage.removeItem("user_id");
+          window.localStorage.removeItem("admin");
+        }
         setUser(null);
         // window.location.reload();
       });

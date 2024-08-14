@@ -29,7 +29,6 @@ export default function Order({ params }) {
   console.log("🚀 ~ useEffect ~ order:", order);
 
   useEffect(() => {
-    const hasDownloaded = localStorage.getItem('pdfDownloaded');
     if (order) {
       const element = pageRef.current;
       const opt = {
@@ -41,7 +40,6 @@ export default function Order({ params }) {
       };
 
       html2pdf().from(element).set(opt).save().then(() => {
-        localStorage.setItem('pdfDownloaded', 'true');
         router.push('/'); // Redirect to another page
       });
     } else {

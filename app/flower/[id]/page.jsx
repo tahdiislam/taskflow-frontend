@@ -1,7 +1,6 @@
 /** @format */
 "use client";
 import Image from "next/image";
-import dummyImage from "@/public/flower_1.png";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useUserContext } from "@/contexts/userContext";
@@ -113,10 +112,11 @@ export default function Flower({ params }) {
       quantity: quantity,
       total_price: flower?.price * quantity,
     };
+    const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
     axios
       .post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/create/`, data, {
         headers: {
-          Authorization: `Token ${localStorage.getItem("token")}`,
+          Authorization: `Token ${token}`,
         },
       })
       .then((res) => {
@@ -135,9 +135,10 @@ export default function Flower({ params }) {
     <div className="w-full p-4 xl:mt-10 xl:mb-20">
       <div className="w-10/12 grid grid-cols-2 gap-8 mx-auto ">
         <Image
-          src={dummyImage}
+          src={flower?.image}
           alt={flower?.title}
           width={250}
+          height={250}
           className="rounded-xl w-full h-auto sticky top-24"
         />
         <div className="flex flex-col justify-start gap-6 py-4">

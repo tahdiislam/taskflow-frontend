@@ -37,18 +37,22 @@ const TABS = {
 export default function Admin() {
   const { user } = useUserContext();
   const [selectedTab, setSelectedTabs] = useState(
-    localStorage.getItem("profile_tab") || TABS.ORDER_HISTORY
+    (typeof window !== "undefined" &&
+      window.localStorage.getItem("profile_tab")) ||
+      TABS.ORDER_HISTORY
   );
+  const [admin, setAdmin] = useState(typeof window !== "undefined" &&
+    window.localStorage.getItem("admin") || null);
   const [orders, setOrders] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null);
   const { toast } = useToast();
   if (!user?.user?.id) redirect("/login");
-  if (!localStorage.getItem("admin")) redirect("/profile");
+  if (!admin) redirect("/profile");
   // tab change handler
   const handleChangeTab = (tab) => {
-    if (selectedTab !== tab && window !== "undefined") {
+    if (selectedTab !== tab && typeof window !== "undefined") {
       setSelectedTabs((prev) => tab);
       window.localStorage.setItem("profile_tab", tab);
     }
@@ -73,6 +77,7 @@ export default function Admin() {
   }, [user?.id]);
 
   const handleChangeOrderStatus = async (id) => {
+    const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
     setLoading((prev) => true);
     setId((prev) => id);
     await axios
@@ -81,7 +86,7 @@ export default function Admin() {
         {},
         {
           headers: {
-            Authorization: `Token ${localStorage.getItem("token")}`,
+            Authorization: `Token ${token}`,
           },
         }
       )
