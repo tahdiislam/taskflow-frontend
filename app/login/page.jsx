@@ -10,17 +10,21 @@ import loginImg from "@/public/authetication/login.svg";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Login() {
   const { user } = useUserContext();
-  const router = useRouter()
-  const [admin, setAdmin] = useState(typeof window !== "undefined" &&
-    window.localStorage.getItem("admin") || null);
-  if (user?.user?.id) {
-    if (admin) router.push("/admin");
-    router.push("/profile");
-  }
+  const router = useRouter();
+  const [admin, setAdmin] = useState(
+    (typeof window !== "undefined" && window.localStorage.getItem("admin")) ||
+      null
+  );
+  useEffect(() => {
+    if (user?.user?.id) {
+      if (admin) router.push("/admin");
+      else router.push("/profile");
+    }
+  }, [user, admin]);
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;

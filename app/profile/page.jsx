@@ -86,7 +86,7 @@ export default function Profile({ params }) {
             <button
               onClick={() => handleChangeTab(TABS.DETAILS)}
               className={`text-start hover:underline ps-3 py-3 rounded-r-full ${
-                selectedTab === TABS.DETAILS ? "bg-emerald-500 text-white" : ""
+                selectedTab === TABS.DETAILS ? "bg-lime-600 text-white" : ""
               }`}
             >
               Details
@@ -95,7 +95,7 @@ export default function Profile({ params }) {
               onClick={() => handleChangeTab(TABS.ORDER_HISTORY)}
               className={`text-start hover:underline ps-3 py-3 rounded-r-full ${
                 selectedTab === TABS.ORDER_HISTORY
-                  ? "bg-emerald-500 text-white"
+                  ? "bg-lime-600 text-white"
                   : ""
               }`}
             >
@@ -106,12 +106,12 @@ export default function Profile({ params }) {
             {selectedTab === TABS.DETAILS ? (
               <div className="flex items-start justify-start gap-12">
                 <Image
-                  className="w-36 h-36 rounded-full border-2 border-emerald-500"
+                  className="w-36 h-36 rounded-full border-2 border-lime-600"
                   src={profile}
                   alt="Profile"
                 />
                 <div className="pt-4 flex flex-col gap-2">
-                  <h1 className="text-2xl font-semibold text-emerald-500">
+                  <h1 className="text-2xl font-semibold text-lime-600">
                     {user?.user?.first_name} {user?.user?.last_name}
                   </h1>
                   <p className="text-xl font-medium">
@@ -150,7 +150,7 @@ export default function Profile({ params }) {
                         </TableCell>
                         <TableCell>
                           <Link
-                            className="text-emerald-600 hover:text-emerald-500 hover:underline"
+                            className="text-lime-600 hover:text-lime-500 hover:underline"
                             href={`/flower/${order?.flower?.id}`}
                           >
                             {order?.flower?.title.slice(0, 20)}
