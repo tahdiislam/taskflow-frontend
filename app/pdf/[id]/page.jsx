@@ -40,14 +40,14 @@ export default function Order({ params }) {
       };
 
       html2pdf().from(element).set(opt).save().then(() => {
-        router.push('/'); // Redirect to another page
+        router.back(); // Redirect to another page
       });
     }
   }, [router, order]);
 
   return (
-    <div ref={pageRef} className="w-9/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
-      <div className="bg-gray-200 rounded-3xl p-20">
+    <div  className="w-11/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
+      <div ref={pageRef} className="bg-gray-200 rounded-3xl p-20">
         <div className="flex justify-center items-center gap-4">
           <div className="w-1/2">
             <h5 className="text-lg text-gray-600">Order Summary:</h5>

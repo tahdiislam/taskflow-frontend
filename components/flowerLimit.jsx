@@ -12,6 +12,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import BlurImage from "@/public/blur.jpg"
+import italiana from "@/lib/italiana";
 
 export default function FlowersLimit() {
   const [flowers, setFlowers] = useState(null);
@@ -32,13 +33,13 @@ export default function FlowersLimit() {
   });
   return (
     <div className="w-full p-4">
-      <h1 className="text-3xl font-bold p-4">Top Selling Flowers</h1>
+      <h1 className={`text-3xl font-bold p-4 ${italiana.className}`}>Top Selling Flowers</h1>
       <Link href="/"></Link>
       <Carousel
         opts={{
           align: "start",
         }}
-        className="w-[95%] mx-auto"
+        className="w-8/12 sm:w-6/12 md:w-10/12 lg:w-[95%] mx-auto"
       >
         <CarouselContent>
           {flowers?.results?.map((flower) => (
@@ -62,7 +63,7 @@ export default function FlowersLimit() {
                   />
                 </picture>
                 <div className="grid gap-2">
-                  <h1 className="text-lg font-semibold ">
+                  <h1 className="text-lg font-semibold">
                     {flower?.title?.length <= 30
                       ? flower?.title
                       : flower?.title?.slice(0, 30) + "..."}

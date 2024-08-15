@@ -28,6 +28,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import italiana from "@/lib/italiana";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -41,8 +42,10 @@ export default function Admin() {
       window.localStorage.getItem("profile_tab")) ||
       TABS.ORDER_HISTORY
   );
-  const [admin, setAdmin] = useState(typeof window !== "undefined" &&
-    window.localStorage.getItem("admin") || null);
+  const [admin, setAdmin] = useState(
+    (typeof window !== "undefined" && window.localStorage.getItem("admin")) ||
+      null
+  );
   const [orders, setOrders] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -77,7 +80,10 @@ export default function Admin() {
   }, [user?.id]);
 
   const handleChangeOrderStatus = async (id) => {
-    const token = typeof window !== "undefined" ? window.localStorage.getItem("token") : null;
+    const token =
+      typeof window !== "undefined"
+        ? window.localStorage.getItem("token")
+        : null;
     setLoading((prev) => true);
     setId((prev) => id);
     await axios
@@ -133,19 +139,21 @@ export default function Admin() {
                   : ""
               }`}
             >
-              Order History
+              All Order
             </button>
           </nav>
           <div className="grid gap-6">
             {selectedTab === TABS.DETAILS ? (
-              <div className="flex items-start justify-start gap-12">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-12 text-center sm:text-start">
                 <Image
                   className="w-36 h-36 rounded-full border-2 border-lime-800"
                   src={profile}
                   alt="Profile"
                 />
                 <div className="pt-4 flex flex-col gap-2">
-                  <h1 className="text-2xl font-semibold text-lime-800">
+                  <h1
+                    className={`text-3xl font-semibold text-lime-800 ${italiana.className}`}
+                  >
                     {user?.user?.first_name} {user?.user?.last_name}
                   </h1>
                   <p className="text-xl font-medium">
@@ -158,7 +166,9 @@ export default function Admin() {
               </div>
             ) : (
               <section>
-                <h1 className="text-3xl font-bold py-4">Order History</h1>
+                <h1 className={`text-3xl font-bold py-4 ${italiana.className}`}>
+                  Order History
+                </h1>
                 <table width="1000">
                   <thead>
                     <tr className="border-2 border-lime-800">

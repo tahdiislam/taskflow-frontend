@@ -2,6 +2,7 @@
 import Link from "next/link";
 import logo from "@/public/logo.png";
 import Image from "next/image";
+import italiana from "@/lib/italiana";
 
 export default function Footer() {
   return (
@@ -11,7 +12,7 @@ export default function Footer() {
             <Image src={logo} alt="logo" width={100} height={100} />
         </div>
         <div>
-          <h3 className="text-xl">Company</h3>
+          <h3 className={`text-2xl ${italiana.className}`}>Company</h3>
           <li>
             <Link className="underline hover:no-underline transition duration-200 underline-offset-1" href="#">About us</Link>
           </li>
@@ -29,7 +30,7 @@ export default function Footer() {
           </li>
         </div>
         <div>
-          <h3 className="text-xl">Support</h3>
+          <h3 className={`text-2xl ${italiana.className}`}>Support</h3>
           <li>
             <Link className="underline hover:no-underline transition duration-200 underline-offset-1" href="#">Getting started</Link>
           </li>
@@ -47,7 +48,7 @@ export default function Footer() {
           </li>
         </div>
         <div>
-          <h3 className="text-xl">Social</h3>
+          <h3 className={`text-2xl ${italiana.className}`}>Social</h3>
           Ⓜ️
         </div>
       </div>

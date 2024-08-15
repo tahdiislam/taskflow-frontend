@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
+import italiana from "@/lib/italiana";
 
 export default function Registration() {
   const [passError, setPassError] = useState("");
@@ -89,7 +90,7 @@ export default function Registration() {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className="text-3xl font-bold">Registration</h1>
+            <h1 className={`text-3xl font-bold ${italiana.className}`}>Registration</h1>
           </div>
           <form onSubmit={handleSubmit} className="grid gap-4">
             <div className="grid gap-2">

@@ -1,14 +1,18 @@
 /** @format */
 
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 import { UserWrapper } from "@/contexts/userContext";
 import { Toaster } from "@/components/ui/toaster";
 import Footer from "@/components/footer";
-const Navbar = dynamic(() => import('@/components/navbar'), { ssr: false })
+const Navbar = dynamic(() => import("@/components/navbar"), { ssr: false });
 
-const inter = Inter({ subsets: ["latin"] });
+// Configure the Montserrat font
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // Add any weights you plan to use
+});
 
 export const metadata = {
   title: "Orchid Oasis",
@@ -18,12 +22,14 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body
+        className={montserrat.className}
+      >
         <UserWrapper>
           <div className="bg-[#F1EFEB]">
             <Navbar />
             {children}
-            <Footer/>
+            <Footer />
             <Toaster />
           </div>
         </UserWrapper>

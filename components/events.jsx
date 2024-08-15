@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FlipWords } from "@/components/ui/flip-words";
 import Link from "next/link";
 import flowers from "@/public/flowers.png";
+import italiana from "@/lib/italiana";
 
 export default function Events() {
   const words = ["with", "with"];
@@ -24,7 +25,7 @@ export default function Events() {
           />
         </div>
         <div className="p-20">
-          <h3 className="text-3xl italic mb-10">Weddings</h3>
+          <h3 className={`text-3xl italic mb-10 ${italiana.className}`}>Weddings</h3>
           <p className="text-base italic">
             Our talented wedding team is dedicated to telling your unique story
             through extraordinary and memorable floral designs. From an

@@ -15,6 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 import BlurImage from "@/public/blur.jpg"
+import italiana from "@/lib/italiana";
 
 export default function Flowers() {
   const [flowers, setFlowers] = useState(null);
@@ -39,7 +40,7 @@ export default function Flowers() {
   });
   return (
     <div className="w-full p-4">
-      <h1 className="text-3xl font-bold p-4">All Flowers</h1>
+      <h1 className={`text-4xl font-bold p-4 ${italiana.className}`}>All Flowers</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
         {flowers?.results?.map((flower) => (
           <div

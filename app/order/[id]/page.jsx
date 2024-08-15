@@ -10,10 +10,10 @@ export default async function Order({ params }) {
   const order = await response.json();
 
   return (
-    <div className="w-9/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
-      <div className="bg-gray-200 rounded-3xl p-20">
+    <div className="w-full sm:w-11/12 md:w-10/12 lg:w-9/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
+      <div className="bg-gray-200 rounded-3xl p-10 md:p-20">
         <div className="flex justify-center items-center gap-4">
-          <div className="w-1/2">
+          <div className="md:w-1/2">
             <h5 className="text-lg text-gray-600">Order Summary:</h5>
             <h1 className="text-3xl font-bold">Order #[{order?.id}]</h1>
             <h3 className="text-xl">{order?.flower?.title}</h3>
@@ -97,7 +97,7 @@ export default async function Order({ params }) {
               </tbody>
             </table>
           </div>
-          <Image src={payment} alt={order?.flower} width={250} />
+          <Image className="hidden md:block" src={payment} alt={order?.flower} width={250} />
         </div>
         <div className="flex justify-end">
           <Link

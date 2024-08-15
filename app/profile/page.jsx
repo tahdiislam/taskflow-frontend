@@ -25,6 +25,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import italiana from "@/lib/italiana";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -76,7 +77,7 @@ export default function Profile({ params }) {
     <div className="flex w-full flex-col">
       <main className="flex min-h-[calc(70vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
         <div className="mx-auto grid w-full max-w-6xl gap-2">
-          <h1 className="text-3xl font-semibold">Profile</h1>
+          <h1 className={`text-3xl font-semibold ${italiana.className}`}>Profile</h1>
         </div>
         <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
           <nav
@@ -104,14 +105,14 @@ export default function Profile({ params }) {
           </nav>
           <div className="grid gap-6">
             {selectedTab === TABS.DETAILS ? (
-              <div className="flex items-start justify-start gap-12">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-12">
                 <Image
                   className="w-36 h-36 rounded-full border-2 border-lime-600"
                   src={profile}
                   alt="Profile"
                 />
                 <div className="pt-4 flex flex-col gap-2">
-                  <h1 className="text-2xl font-semibold text-lime-600">
+                  <h1 className={`text-3xl font-semibold text-lime-600 ${italiana.className}`}>
                     {user?.user?.first_name} {user?.user?.last_name}
                   </h1>
                   <p className="text-xl font-medium">
@@ -124,8 +125,8 @@ export default function Profile({ params }) {
               </div>
             ) : (
               <section>
-                <h1 className="text-3xl font-bold py-4">Order History</h1>
-                <Table className="text-center">
+                <h1 className={`text-3xl font-bold py-4 ${italiana.className}`}>Order History</h1>
+                <Table className="text-center table-fixed md:table-auto">
                   <TableCaption>A list of your recent orders</TableCaption>
                   <TableHeader>
                     <TableRow>
