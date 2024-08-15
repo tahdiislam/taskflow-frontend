@@ -2,7 +2,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,20 +11,17 @@ import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
 import { useEffect, useState } from "react";
 import italiana from "@/lib/italiana";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Login() {
-  const { user } = useUserContext();
+  const { user, fetchUser, admin } = useUserContext();
   const router = useRouter();
-  const [admin, setAdmin] = useState(
-    (typeof window !== "undefined" && window.localStorage.getItem("admin")) ||
-      null
-  );
   useEffect(() => {
-    if (user?.user?.id) {
-      if (admin) router.push("/admin");
-      else router.push("/profile");
+    if (typeof window !== "undefined") {
+      const user = window.localStorage.getItem("user_id");
+      if (user) router.push("/");
     }
-  }, [user, admin]);
+  });
   const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.target;
@@ -42,12 +38,16 @@ export default function Login() {
           window.localStorage.setItem("user_id", res?.data?.user_id);
           if (res?.data?.admin)
             window.localStorage.setItem("admin", res?.data?.admin);
-          // toast({
-          //   title: "New Login",
-          //   description: 'Successfully Login',
-          // });
+          toast({
+            description: "Successfully Login",
+          });
           form.reset();
-          window.location.reload();
+          // window.location.reload();
+          const admin = window.localStorage.getItem("admin") || null;
+          const userId = window.localStorage.getItem("user_id") || null;
+          fetchUser();
+          if (admin) router.push("/admin");
+          else if (userId) router.push("/profile");
         }
         // setSubmit(false);
       })
@@ -55,14 +55,15 @@ export default function Login() {
         // setSubmit(false);
         console.log(err);
       });
-    console.log("🚀 ~ handleSubmit ~ data:", data);
   };
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px">
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className={`text-3xl font-bold ${italiana.className}`}>Login</h1>
+            <h1 className={`text-3xl font-bold ${italiana.className}`}>
+              Login
+            </h1>
             <p className="text-balance text-muted-foreground"></p>
           </div>
           <form onSubmit={handleSubmit} className="grid gap-4">

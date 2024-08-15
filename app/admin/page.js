@@ -3,7 +3,7 @@
 import Image from "next/image";
 import profile from "@/public/without_background_img.png";
 import { useUserContext } from "@/contexts/userContext";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -42,17 +42,21 @@ export default function Admin() {
       window.localStorage.getItem("profile_tab")) ||
       TABS.ORDER_HISTORY
   );
-  const [admin, setAdmin] = useState(
-    (typeof window !== "undefined" && window.localStorage.getItem("admin")) ||
-      null
-  );
   const [orders, setOrders] = useState({});
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [id, setId] = useState(null);
   const { toast } = useToast();
-  if (!user?.user?.id) redirect("/login");
-  if (!admin) redirect("/profile");
+  const router = useRouter();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userId = window.localStorage.getItem("user_id");
+      if (!userId) router.push("/login");
+      const admin = window.localStorage.getItem("admin");
+      if (!admin) router.push("/profile");
+    }
+  }, [router]);
+
   // tab change handler
   const handleChangeTab = (tab) => {
     if (selectedTab !== tab && typeof window !== "undefined") {
@@ -77,7 +81,7 @@ export default function Admin() {
   };
   useEffect(() => {
     if (!orders?.count) handleLoadOrders();
-  }, [user?.id]);
+  });
 
   const handleChangeOrderStatus = async (id) => {
     const token =

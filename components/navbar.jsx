@@ -16,9 +16,11 @@ import { useUserContext } from "@/contexts/userContext";
 import axios from "axios";
 import Image from "next/image";
 import logo from "@/public/logo.png";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { user, setUser } = useUserContext();
+  const router = useRouter();
   const userToken =
     typeof window !== "undefined" && window.localStorage.getItem("token");
   const admin =
@@ -38,6 +40,7 @@ const Navbar = () => {
           window.localStorage.removeItem("admin");
           setUser(null);
           console.log("successfully logout");
+          router.push("/login")
         }
       })
       .catch((err) => {

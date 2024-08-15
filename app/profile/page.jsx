@@ -3,7 +3,7 @@
 import Image from "next/image";
 import profile from "@/public/without_background_img.png";
 import { useUserContext } from "@/contexts/userContext";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -26,6 +26,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import italiana from "@/lib/italiana";
+import Spinner from "@/public/spinner.svg";
 
 const TABS = {
   DETAILS: "DETAILS",
@@ -39,10 +40,15 @@ export default function Profile({ params }) {
       window.localStorage.getItem("profile_tab")) ||
       TABS.ORDER_HISTORY
   );
-
   const [orders, setOrders] = useState({});
   const [page, setPage] = useState(1);
-  if (!user?.user?.id) redirect("/login");
+  const router = useRouter();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userId = window.localStorage.getItem("user_id");
+      if (!userId) router.push("/login");
+    }
+  }, [router]);
   // tab change handler
   const handleChangeTab = (tab) => {
     if (selectedTab !== tab && typeof window !== "undefined") {
@@ -69,7 +75,7 @@ export default function Profile({ params }) {
   };
   useEffect(() => {
     if (!orders?.count) handleLoadOrders();
-  }, [user?.id]);
+  });
 
   const formattedDate = (isoDateString) =>
     format(new Date(isoDateString), "MMMM dd, yyyy HH:mm:ss a");
@@ -77,7 +83,9 @@ export default function Profile({ params }) {
     <div className="flex w-full flex-col">
       <main className="flex min-h-[calc(70vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
         <div className="mx-auto grid w-full max-w-6xl gap-2">
-          <h1 className={`text-3xl font-semibold ${italiana.className}`}>Profile</h1>
+          <h1 className={`text-3xl font-semibold ${italiana.className}`}>
+            Profile
+          </h1>
         </div>
         <div className="mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
           <nav
@@ -112,7 +120,9 @@ export default function Profile({ params }) {
                   alt="Profile"
                 />
                 <div className="pt-4 flex flex-col gap-2">
-                  <h1 className={`text-3xl font-semibold text-lime-600 ${italiana.className}`}>
+                  <h1
+                    className={`text-3xl font-semibold text-lime-600 ${italiana.className}`}
+                  >
                     {user?.user?.first_name} {user?.user?.last_name}
                   </h1>
                   <p className="text-xl font-medium">
@@ -125,7 +135,9 @@ export default function Profile({ params }) {
               </div>
             ) : (
               <section>
-                <h1 className={`text-3xl font-bold py-4 ${italiana.className}`}>Order History</h1>
+                <h1 className={`text-3xl font-bold py-4 ${italiana.className}`}>
+                  Order History
+                </h1>
                 <Table className="text-center table-fixed md:table-auto">
                   <TableCaption>A list of your recent orders</TableCaption>
                   <TableHeader>
