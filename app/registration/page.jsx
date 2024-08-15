@@ -19,14 +19,14 @@ import italiana from "@/lib/italiana";
 export default function Registration() {
   const [passError, setPassError] = useState("");
   const { toast } = useToast();
-  const [submit, setSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { user } = useUserContext();
   if (user?.user?.id) redirect("/profile");
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (passError) return;
-    if (submit) return;
-    setSubmit(true);
+    if (loading) return;
+    setLoading(true);
     const form = event.target;
     const data = {
       username: form.username.value,
@@ -55,10 +55,10 @@ export default function Registration() {
           });
           form.reset();
         }
-        setSubmit(false);
+        setLoading(false);
       })
       .catch((err) => {
-        setSubmit(false);
+        setLoading(false);
         console.log(err);
       });
 
@@ -164,11 +164,11 @@ export default function Registration() {
             <Button
               type="submit"
               className="w-full bg-lime-800 hover:bg-lime-700 transition-all duration-300 disabled:bg-lime-300"
-              disabled={submit}
+              disabled={loading}
             >
               <Loader2
                 className={`${
-                  !submit ? "hidden" : "block"
+                  !loading ? "hidden" : "block"
                 } mr-2 h-4 w-4 animate-spin`}
               />
               Registration

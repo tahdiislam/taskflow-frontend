@@ -121,9 +121,9 @@ const Navbar = () => {
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="rounded-full border-2 border-emerald-500 "
+                    className="rounded-full border-2 border-lime-700"
                   >
-                    <CircleUser className="h-5 w-5" />
+                    <CircleUser className="h-5 w-5 text-lime-700" />
                     <span className="sr-only">Toggle user menu</span>
                   </Button>
                 </DropdownMenuTrigger>

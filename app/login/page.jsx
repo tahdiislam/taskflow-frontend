@@ -12,10 +12,12 @@ import { useUserContext } from "@/contexts/userContext";
 import { useEffect, useState } from "react";
 import italiana from "@/lib/italiana";
 import { toast } from "@/components/ui/use-toast";
+import { Loader2 } from "lucide-react";
 
 export default function Login() {
   const { user, fetchUser, admin } = useUserContext();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const user = window.localStorage.getItem("user_id");
@@ -24,38 +26,61 @@ export default function Login() {
   });
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
+
     const form = event.target;
     const data = {
       username: form.username.value,
       password: form.password.value,
     };
-    await axios
-      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/login/`, data)
-      .then((res) => {
-        console.log("🚀 ~ .then ~ res:", res);
-        if (res.status === 200 && typeof window !== "undefined") {
-          window.localStorage.setItem("token", res?.data?.token);
-          window.localStorage.setItem("user_id", res?.data?.user_id);
-          if (res?.data?.admin)
-            window.localStorage.setItem("admin", res?.data?.admin);
-          toast({
-            description: "Successfully Login",
-          });
-          form.reset();
-          // window.location.reload();
-          const admin = window.localStorage.getItem("admin") || null;
-          const userId = window.localStorage.getItem("user_id") || null;
-          fetchUser();
-          if (admin) router.push("/admin");
-          else if (userId) router.push("/profile");
+
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/login/`,
+        data
+      );
+
+      if (res.status === 200 && typeof window !== "undefined") {
+        // Store user data in localStorage
+        window.localStorage.setItem("token", res.data.token);
+        window.localStorage.setItem("user_id", res.data.user_id);
+        if (res.data.admin) {
+          window.localStorage.setItem("admin", res.data.admin);
         }
-        // setSubmit(false);
-      })
-      .catch((err) => {
-        // setSubmit(false);
-        console.log(err);
-      });
+
+        // Display success toast
+        toast({
+          description: "Successfully Login",
+        });
+
+        // Reset form
+        form.reset();
+
+        // Fetch user data
+        await fetchUser();
+
+        // Redirect based on user role
+        if (res.data.admin) {
+          router.push("/admin");
+        } else {
+          router.push("/profile");
+        }
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+
+      // Optionally handle specific error messages
+      if (error.response && error.response.status === 400) {
+        toast({
+          description: "Invalid credentials",
+          status: "error",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px">
       <div className="flex items-center justify-center py-12">
@@ -99,8 +124,14 @@ export default function Login() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-lime-800 hover:bg-lime-700 transition-all duration-300"
+              className="w-full bg-lime-800 hover:bg-lime-700 transition-all duration-300 disabled:bg-lime-300"
+              disabled={loading}
             >
+              <Loader2
+                className={`${
+                  !loading ? "hidden" : "block"
+                } mr-2 h-4 w-4 animate-spin`}
+              />
               Login
             </Button>
           </form>

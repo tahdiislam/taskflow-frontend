@@ -19,10 +19,10 @@ export function UserWrapper({ children }) {
     }
   }, []);
 
-  const fetchUser = () => {
+  const fetchUser = async () => {
     if (!userId) return;
     setUserLoading(true);
-    axios
+    await axios
       .get(
         `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/list/?user_id=${userId}`
       )
@@ -41,7 +41,7 @@ export function UserWrapper({ children }) {
     fetchUser();
   }, [userId]);
 
-  const value = { user, setUser, userLoading, userId, fetchUser, admin};
+  const value = { user, setUser, userLoading, userId, fetchUser, admin };
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 }
 
