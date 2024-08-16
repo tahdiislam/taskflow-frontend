@@ -57,7 +57,7 @@ export default function Login() {
         form.reset();
 
         // Fetch user data
-        await fetchUser();
+        await fetchUser()
 
         // Redirect based on user role
         if (res.data.admin) {
