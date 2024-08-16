@@ -14,15 +14,13 @@ export default function Events() {
           whileInView={{ scale: 1, opacity: 1, x: 0, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
+          className="overflow-hidden"
         >
           <Image
             src={flowers}
             alt="Flower Banner"
-            style={{
-              width: "100%",
-              height: "95vh",
-            }}
             placeholder="blur"
+            className="w-full h-auto hover:scale-110 duration-300"
           />
         </motion.picture>
         <div className="p-20">
