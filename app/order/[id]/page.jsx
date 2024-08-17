@@ -1,13 +1,29 @@
 /** @format */
+"use client";
 import Image from "next/image";
 import payment from "@/public/payment.png";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default async function Order({ params }) {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/list/${params.id}`
-  );
-  const order = await response.json();
+export default function Order({ params }) {
+  const [order, setOrder] = useState(null);
+  console.log("🚀 ~ Order ~ order:", order);
+
+  const handleLoadOrder = () =>
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/order/list/${params.id}`
+      )
+      .then((res) => {
+        setOrder((prev) => res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  useEffect(() => {
+    if (!order) handleLoadOrder();
+  }, [params?.id]);
 
   return (
     <div className="w-full sm:w-11/12 md:w-10/12 lg:w-9/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
@@ -60,17 +76,11 @@ export default async function Order({ params }) {
                   </td>
                   <td>
                     {order?.status === "Pending" ? (
-                      <span className="bg-yellow-500 px-3 py-1 rounded-3xl text-white text-lg">
-                        Pending
-                      </span>
+                      <span className="text-yellow-600 font-bold">Pending</span>
                     ) : order?.status === "Completed" ? (
-                      <span className="bg-lime-700 px-3 py-1 rounded-3xl text-white text-lg">
-                        Completed
-                      </span>
+                      <span className="text-lime-600 font-bold">Completed</span>
                     ) : (
-                      <span className="bg-red-600 px-3 py-1 rounded-3xl text-white text-lg">
-                        Canceled
-                      </span>
+                      <span className="text-red-600 font-bold">Canceled</span>
                     )}
                   </td>
                 </tr>
@@ -97,7 +107,12 @@ export default async function Order({ params }) {
               </tbody>
             </table>
           </div>
-          <Image className="hidden md:block" src={payment} alt={order?.flower} width={250} />
+          <Image
+            className="hidden md:block"
+            src={payment}
+            alt={order?.flower}
+            width={250}
+          />
         </div>
         <div className="flex justify-end">
           <Link

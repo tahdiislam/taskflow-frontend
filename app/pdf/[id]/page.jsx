@@ -4,8 +4,8 @@ import Image from "next/image";
 import payment from "@/public/payment.png";
 import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { useRouter } from 'next/navigation';
-import html2pdf from 'html2pdf.js';
+import { useRouter } from "next/navigation";
+import html2pdf from "html2pdf.js";
 
 export default function Order({ params }) {
   const [order, setOrder] = useState(null);
@@ -26,7 +26,6 @@ export default function Order({ params }) {
   useEffect(() => {
     if (!order) handleLoadOrder();
   }, [params?.id]);
-  console.log("🚀 ~ useEffect ~ order:", order);
 
   useEffect(() => {
     if (order) {
@@ -34,19 +33,23 @@ export default function Order({ params }) {
       const opt = {
         margin: 0,
         filename: `order-${order?.id}-receipt.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: "jpeg", quality: 0.98 },
         html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+        jsPDF: { unit: "in", format: "a4", orientation: "portrait" },
       };
 
-      html2pdf().from(element).set(opt).save().then(() => {
-        router.back(); // Redirect to another page
-      });
+      html2pdf()
+        .from(element)
+        .set(opt)
+        .save()
+        .then(() => {
+          router.back(); // Redirect to another page
+        });
     }
   }, [router, order]);
 
   return (
-    <div  className="w-11/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
+    <div className="w-11/12 p-4 xl:mt-10 xl:mb-20 mx-auto">
       <div ref={pageRef} className="bg-gray-200 rounded-3xl p-20">
         <div className="flex justify-center items-center gap-4">
           <div className="w-1/2">
@@ -96,15 +99,15 @@ export default function Order({ params }) {
                   </td>
                   <td>
                     {order?.status === "Pending" ? (
-                      <span className="bg-yellow-500 px-3 py-1 rounded-3xl text-white text-lg">
+                      <span className="text-yellow-600 font-bold">
                         Pending
                       </span>
                     ) : order?.status === "Completed" ? (
-                      <span className="bg-lime-700 px-3 py-1 rounded-3xl text-white text-lg">
+                      <span className="text-lime-600 font-bold">
                         Completed
                       </span>
                     ) : (
-                      <span className="bg-red-600 px-3 py-1 rounded-3xl text-white text-lg">
+                      <span className="text-red-600 font-bold">
                         Canceled
                       </span>
                     )}
