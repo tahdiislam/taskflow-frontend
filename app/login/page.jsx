@@ -36,7 +36,7 @@ export default function Login() {
 
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/login/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/user/login/`,
         data
       );
 

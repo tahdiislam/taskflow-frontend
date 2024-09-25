@@ -44,7 +44,7 @@ export default function Registration() {
     setPassError("");
     await axios
       .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/register/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/user/register/`,
         data
       )
       .then((res) => {

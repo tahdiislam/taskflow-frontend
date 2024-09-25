@@ -28,7 +28,7 @@ const Navbar = () => {
   // logout handler
   const handleLogout = () => {
     axios
-      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/customer/logout/`, {
+      .get(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/user/logout/`, {
         headers: {
           Authorization: `Token ${userToken}`,
         },
