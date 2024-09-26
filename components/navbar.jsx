@@ -58,23 +58,23 @@ const Navbar = () => {
   };
   return (
     <>
-      <header className="top-0 flex h-20 items-center gap-4 bg-background px-4 md:px-6">
+      <header className="top-0 flex h-16 items-center gap-4 bg-background px-4 md:px-6 relative z-10 bg-white">
         <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           <Link
             href="/"
             className="flex items-center gap-2 text-lg font-semibold md:text-base"
           >
-            <Image src={logo} alt="logo" width={100} height={100} />
+            <Image src={logo} alt="logo" width={200} height={200} />
           </Link>
           <Link
             href="/"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground transition-colors hover:text-foreground text-lg"
           >
             Home
           </Link>
           <Link
             href="/flower"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground transition-colors hover:text-foreground text-lg"
           >
             Flowers
           </Link>
@@ -91,7 +91,7 @@ const Navbar = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
-            <nav className="grid gap-6 text-lg font-medium">
+            <nav className="grid gap-6 font-medium">
               <Link
                 href="#"
                 className="flex items-center gap-2 text-lg font-semibold"
@@ -149,12 +149,12 @@ const Navbar = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <div className="flex items-center gap-4">
-                <Button className="w-full border-2 border-lime-700 hover:border-lime-800 bg-lime-700 hover:bg-lime-800 hover:text-white transition-all duration-200">
+              <div className="flex items-center gap-6">
+                <button className="w-full h-16 bg-transparent text-black transition-all duration-200 text-lg font-medium">
                   <Link href="/login">Login</Link>
-                </Button>
-                <Button className="w-full border-2 border-lime-800 hover:bg-lime-800 bg-transparent text-black hover:text-white transition-all duration-300">
-                  <Link href="/registration">Register</Link>
+                </button>
+                <Button className="w-full h-16 bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300 text-lg rounded-none">
+                  <Link href="/registration">Get TaskFlow For Free</Link>
                 </Button>
               </div>
             )}
