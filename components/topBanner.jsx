@@ -24,7 +24,7 @@ export default function TopBanner() {
         quality={100}
         priority={true}    // Optional: Loads the image faster
       />
-      <div className="flex flex-col lg:flex-row justify-between items-center px-4 sm:px-10 md:px-20 lg:px-28 relative z-10">
+      <div className="flex flex-col lg:flex-row justify-between items-center px-4 sm:px-10 md:px-20 relative z-10">
         <div className="py-10 md:py-12 lg:w-1/2">
           <h1 className={`text-4xl md:text-5xl text-white font-medium`}>
             <span>TaskFlow brings all your tasks, teammates, and tools together</span>
@@ -32,7 +32,7 @@ export default function TopBanner() {
             <FlipWords words={words} />
             <FlipWords words={words2} /> */}
           </h1>
-          <Link href="/flower" ><button className="text-base border-2 border-lime-800 py-3 px-6 rounded-xl hover:bg-lime-800 hover:text-white transition ease-in-out duration-500 mt-4">SHOP NOW</button></Link>
+          <Link href="/register" ><button className="text-base py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition ease-in-out duration-500 mt-4">JOIN NOW</button></Link>
         </div>
         <div>
           <Image
@@ -42,6 +42,7 @@ export default function TopBanner() {
             width={500}
             className="w-full h-auto xl:h-[90vh]"
             placeholder="blur"
+            quality={100}
           />
         </div>
       </div>

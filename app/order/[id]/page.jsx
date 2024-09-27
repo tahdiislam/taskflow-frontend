@@ -53,7 +53,7 @@ export default function Order({ params }) {
                   </td>
                   <td>
                     ৳
-                    <span className="text-lime-700 font-bold">
+                    <span className="text-blue-700 font-bold">
                       {order?.total_price}
                     </span>
                   </td>
@@ -64,7 +64,7 @@ export default function Order({ params }) {
                   </td>
                   <td>
                     {order?.payment_status ? (
-                      <span className="text-lime-600 font-bold">Paid</span>
+                      <span className="text-blue-600 font-bold">Paid</span>
                     ) : (
                       <span className="text-red-600 font-bold">Unpaid</span>
                     )}
@@ -78,7 +78,7 @@ export default function Order({ params }) {
                     {order?.status === "Pending" ? (
                       <span className="text-yellow-600 font-bold">Pending</span>
                     ) : order?.status === "Completed" ? (
-                      <span className="text-lime-600 font-bold">Completed</span>
+                      <span className="text-blue-600 font-bold">Completed</span>
                     ) : (
                       <span className="text-red-600 font-bold">Canceled</span>
                     )}
@@ -116,7 +116,7 @@ export default function Order({ params }) {
         </div>
         <div className="flex justify-end">
           <Link
-            className="bg-lime-700 hover:bg-lime-600 text-white px-3 py-1 rounded-md text-lg transition-all duration-200 active:scale-95"
+            className="bg-blue-700 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-lg transition-all duration-200 active:scale-95"
             href={`/pdf/${order?.id}/`}
           >
             Download This Receipt

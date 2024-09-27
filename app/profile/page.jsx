@@ -95,7 +95,7 @@ export default function Profile({ params }) {
             <button
               onClick={() => handleChangeTab(TABS.DETAILS)}
               className={`text-start hover:underline ps-3 py-3 rounded-r-full ${
-                selectedTab === TABS.DETAILS ? "bg-lime-600 text-white" : ""
+                selectedTab === TABS.DETAILS ? "bg-blue-600 text-white" : ""
               }`}
             >
               Details
@@ -104,7 +104,7 @@ export default function Profile({ params }) {
               onClick={() => handleChangeTab(TABS.ORDER_HISTORY)}
               className={`text-start hover:underline ps-3 py-3 rounded-r-full ${
                 selectedTab === TABS.ORDER_HISTORY
-                  ? "bg-lime-600 text-white"
+                  ? "bg-blue-600 text-white"
                   : ""
               }`}
             >
@@ -115,13 +115,13 @@ export default function Profile({ params }) {
             {selectedTab === TABS.DETAILS ? (
               <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-12">
                 <Image
-                  className="w-36 h-36 rounded-full border-2 border-lime-600"
+                  className="w-36 h-36 rounded-full border-2 border-blue-600"
                   src={profile}
                   alt="Profile"
                 />
                 <div className="pt-4 flex flex-col gap-2">
                   <h1
-                    className={`text-3xl font-semibold text-lime-600 ${italiana.className}`}
+                    className={`text-3xl font-semibold text-blue-600 ${italiana.className}`}
                   >
                     {user?.user?.first_name} {user?.user?.last_name}
                   </h1>
@@ -163,7 +163,7 @@ export default function Profile({ params }) {
                         </TableCell>
                         <TableCell>
                           <Link
-                            className="text-lime-600 hover:text-lime-500 hover:underline"
+                            className="text-blue-600 hover:text-blue-500 hover:underline"
                             href={`/flower/${order?.flower?.id}`}
                           >
                             {order?.flower?.title.slice(0, 20)}

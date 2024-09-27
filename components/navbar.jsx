@@ -72,12 +72,6 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <Link
-            href="/flower"
-            className="text-muted-foreground transition-colors hover:text-foreground text-lg"
-          >
-            Flowers
-          </Link>
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -121,9 +115,9 @@ const Navbar = () => {
                   <Button
                     variant="secondary"
                     size="icon"
-                    className="rounded-full border-2 border-lime-700"
+                    className="rounded-full border-2 border-blue-700"
                   >
-                    <CircleUser className="h-5 w-5 text-lime-700" />
+                    <CircleUser className="h-5 w-5 text-blue-700" />
                     <span className="sr-only">Toggle user menu</span>
                   </Button>
                 </DropdownMenuTrigger>

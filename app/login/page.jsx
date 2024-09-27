@@ -57,7 +57,7 @@ export default function Login() {
         form.reset();
 
         // Fetch user data
-        await fetchUser()
+        await fetchUser();
 
         // Redirect based on user role
         if (res.data.admin) {
@@ -124,7 +124,7 @@ export default function Login() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-lime-800 hover:bg-lime-700 transition-all duration-300 disabled:bg-lime-300"
+              className="w-full bg-blue-800 hover:bg-blue-700 transition-all duration-300 disabled:bg-blue-300"
               disabled={loading}
             >
               <Loader2

@@ -43,10 +43,7 @@ export default function Registration() {
     }
     setPassError("");
     await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/user/register/`,
-        data
-      )
+      .post(`${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/user/register/`, data)
       .then((res) => {
         if (res.status === 200) {
           toast({
@@ -90,7 +87,9 @@ export default function Registration() {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className={`text-3xl font-bold ${italiana.className}`}>Registration</h1>
+            <h1 className={`text-3xl font-bold ${italiana.className}`}>
+              Registration
+            </h1>
           </div>
           <form onSubmit={handleSubmit} className="grid gap-4">
             <div className="grid gap-2">
@@ -163,7 +162,7 @@ export default function Registration() {
             </div>
             <Button
               type="submit"
-              className="w-full bg-lime-800 hover:bg-lime-700 transition-all duration-300 disabled:bg-lime-300"
+              className="w-full bg-blue-800 hover:bg-blue-700 transition-all duration-300 disabled:bg-blue-300"
               disabled={loading}
             >
               <Loader2

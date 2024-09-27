@@ -14,7 +14,9 @@ export default function Footer() {
           <Image src={logo} alt="logo" width={100} height={100} />
         </div>
         <div>
-          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>Company</h3>
+          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>
+            Company
+          </h3>
           <li>
             <Link
               className="underline hover:no-underline transition duration-200 underline-offset-1"
@@ -57,7 +59,9 @@ export default function Footer() {
           </li>
         </div>
         <div>
-          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>Support</h3>
+          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>
+            Support
+          </h3>
           <li>
             <Link
               className="underline hover:no-underline transition duration-200 underline-offset-1"
@@ -100,18 +104,20 @@ export default function Footer() {
           </li>
         </div>
         <div>
-          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>Social</h3>
+          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>
+            Social
+          </h3>
           <ul className="text-xl md:text-3xl flex flex-col sm:flex-row justify-start items-center gap-4 transition-all duration-300">
-            <li className="hover:text-lime-900">
+            <li className="hover:text-blue-900">
               <FaFacebookSquare />
             </li>
-            <li className="hover:text-lime-900">
+            <li className="hover:text-blue-900">
               <FaInstagram />
             </li>
-            <li className="hover:text-lime-900">
+            <li className="hover:text-blue-900">
               <FaXTwitter />
             </li>
-            <li className="hover:text-lime-900">
+            <li className="hover:text-blue-900">
               <FaYoutube />
             </li>
           </ul>

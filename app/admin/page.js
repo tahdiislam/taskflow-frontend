@@ -130,7 +130,7 @@ export default function Admin() {
             <button
               onClick={() => handleChangeTab(TABS.DETAILS)}
               className={`text-start hover:underline ps-3 py-3 rounded-r-full ${
-                selectedTab === TABS.DETAILS ? "bg-lime-600 text-white" : ""
+                selectedTab === TABS.DETAILS ? "bg-blue-600 text-white" : ""
               }`}
             >
               Details
@@ -139,7 +139,7 @@ export default function Admin() {
               onClick={() => handleChangeTab(TABS.ORDER_HISTORY)}
               className={`text-start hover:underline ps-3 py-3 rounded-r-full ${
                 selectedTab === TABS.ORDER_HISTORY
-                  ? "bg-lime-600 text-white"
+                  ? "bg-blue-600 text-white"
                   : ""
               }`}
             >
@@ -150,13 +150,13 @@ export default function Admin() {
             {selectedTab === TABS.DETAILS ? (
               <div className="flex flex-col sm:flex-row items-center sm:items-start justify-start gap-12 text-center sm:text-start">
                 <Image
-                  className="w-36 h-36 rounded-full border-2 border-lime-800"
+                  className="w-36 h-36 rounded-full border-2 border-blue-800"
                   src={profile}
                   alt="Profile"
                 />
                 <div className="pt-4 flex flex-col gap-2">
                   <h1
-                    className={`text-3xl font-semibold text-lime-800 ${italiana.className}`}
+                    className={`text-3xl font-semibold text-blue-800 ${italiana.className}`}
                   >
                     {user?.user?.first_name} {user?.user?.last_name}
                   </h1>
@@ -175,7 +175,7 @@ export default function Admin() {
                 </h1>
                 <table width="1000">
                   <thead>
-                    <tr className="border-2 border-lime-800">
+                    <tr className="border-2 border-blue-800">
                       <th className="py-2">Id</th>
                       <th>Status</th>
                       <th>Quantity</th>
@@ -186,7 +186,7 @@ export default function Admin() {
                   </thead>
                   <tbody className="text-center">
                     {orders?.results?.map((order) => (
-                      <tr key={order?.id} className="border-2 border-lime-800">
+                      <tr key={order?.id} className="border-2 border-blue-800">
                         <td className="py-3">{order?.id}</td>
                         <td>
                           {order?.status === "Pending" ? (
@@ -194,7 +194,7 @@ export default function Admin() {
                               <AlertDialogTrigger asChild>
                                 {loading && order?.id === id ? (
                                   <Button
-                                    className="bg-lime-600"
+                                    className="bg-blue-600"
                                     disabled
                                     size="sm"
                                   >
@@ -232,7 +232,7 @@ export default function Admin() {
                           ) : (
                             <Button
                               size="sm"
-                              className="bg-lime-700 hover:bg-lime-700 text-white cursor-no-drop"
+                              className="bg-blue-700 hover:bg-blue-700 text-white cursor-no-drop"
                             >
                               {order?.status}
                             </Button>
@@ -243,7 +243,7 @@ export default function Admin() {
                         <td>{order?.created_at}</td>
                         <td>
                           <Link
-                            className="text-lime-800 hover:text-lime-800 hover:underline"
+                            className="text-blue-800 hover:text-blue-800 hover:underline"
                             href={`/flower/${order?.flower?.id}`}
                           >
                             {order?.flower?.title}
