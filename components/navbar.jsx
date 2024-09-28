@@ -72,6 +72,12 @@ const Navbar = () => {
           >
             Home
           </Link>
+          <Link
+            href="/project"
+            className="text-muted-foreground transition-colors hover:text-foreground text-lg"
+          >
+            Project
+          </Link>
         </nav>
         <Sheet>
           <SheetTrigger asChild>

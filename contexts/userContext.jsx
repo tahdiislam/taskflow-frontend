@@ -27,7 +27,7 @@ export function UserWrapper({ children }) {
         `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/user/list/?user_id=${userId}`
       )
       .then((res) => {
-        console.log("🚀 ~ .then ~ res:", res);
+        // console.log("🚀 ~ .then ~ res:", res);
         if (res.status === 200) {
           setUser(res?.data?.results[0]);
         }
