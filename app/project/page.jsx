@@ -16,6 +16,7 @@ import { useUserContext } from "@/contexts/userContext";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Textarea } from "@/components/ui/textarea"
 
 export default function Project() {
   const { user } = useUserContext();
@@ -97,7 +98,7 @@ export default function Project() {
               <Label htmlFor="username" className="text-right">
                 Description
               </Label>
-              <textarea
+              <Textarea
                 onChange={(e) => setDescription(e.target.value)}
                 name="description"
                 placeholder="Redesign the company website with a modern UI/UX."
