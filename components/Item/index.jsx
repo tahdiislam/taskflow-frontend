@@ -1,10 +1,21 @@
-import { UniqueIdentifier } from '@dnd-kit/core';
-import { useSortable } from '@dnd-kit/sortable';
-import React from 'react';
-import { CSS } from '@dnd-kit/utilities';
-import clsx from 'clsx';
+/** @format */
 
-const Items = ({ id, title }) => {
+import { UniqueIdentifier } from "@dnd-kit/core";
+import { useSortable } from "@dnd-kit/sortable";
+import React from "react";
+import { CSS } from "@dnd-kit/utilities";
+import clsx from "clsx";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const Items = ({ id, title, handleUpdateTask, status }) => {
   const {
     attributes,
     listeners,
@@ -15,7 +26,7 @@ const Items = ({ id, title }) => {
   } = useSortable({
     id: id,
     data: {
-      type: 'item',
+      type: "item",
     },
   });
   return (
@@ -27,18 +38,22 @@ const Items = ({ id, title }) => {
         transform: CSS.Translate.toString(transform),
       }}
       className={clsx(
-        'px-2 py-4 bg-white shadow-md rounded-xl w-full border border-transparent hover:border-gray-200 cursor-pointer',
-        isDragging && 'opacity-50',
+        "px-2 py-4 bg-white shadow-md rounded-xl w-full border border-transparent hover:border-gray-200 cursor-pointer",
+        isDragging && "opacity-50"
       )}
     >
       <div className="flex items-center justify-between">
         {title}
-        <button
-          className="border p-2 text-xs rounded-xl shadow-lg hover:shadow-xl"
-          {...listeners}
-        >
-          Drag Handle
-        </button>
+        <Select onValueChange={(value) => handleUpdateTask(id, value, status)}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select an option" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="Pending">Pending</SelectItem>
+            <SelectItem value="In Progress">In Progress</SelectItem>
+            <SelectItem value="Completed">Completed</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
     </div>
   );
