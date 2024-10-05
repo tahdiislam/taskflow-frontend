@@ -6,128 +6,92 @@ import italiana from "@/lib/italiana";
 import { FaFacebookSquare, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faInstagram,
+  faFacebook,
+  faLinkedin,
+  faTwitter,
+  faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+
 export default function Footer() {
   return (
-    <footer className="h-auto bg-[#F1EFEB] p-3 md:p-6 pb-4 rounded-t-xl text-[#6A6E49] list-none text-sm md:text-base">
-      <div className="grid grid-cols-4 pb-4">
+    <footer className="bg-[#172b4d] text-white py-10">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Logo and Login */}
         <div>
-          <Image src={logo} alt="logo" width={100} height={100} />
+          <div className="flex items-center mb-4">
+            {/* Add your logo image path */}
+            <Image src={logo} alt="Logo" className="w-28 h-auto mr-2" />
+          </div>
+          <Link href="/login" className="text-sm hover:underline">
+            Log In
+          </Link>
         </div>
+
+        {/* About TaskFlow */}
         <div>
-          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>
-            Company
-          </h3>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              About us
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Contact us
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Career
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Culture
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Blog
-            </Link>
-          </li>
+          <h3 className="text-md font-semibold mb-2">About TaskFlow</h3>
+          <p className="text-sm">What’s behind the boards.</p>
         </div>
+
+        {/* Jobs */}
         <div>
-          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>
-            Support
-          </h3>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Getting started
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Help center
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Server status
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Report a bug
-            </Link>
-          </li>
-          <li>
-            <Link
-              className="underline hover:no-underline transition duration-200 underline-offset-1"
-              href="#"
-            >
-              Chat Support
-            </Link>
-          </li>
+          <h3 className="text-md font-semibold mb-2">Jobs</h3>
+          <p className="text-sm">Learn about open roles on the TaskFlow team.</p>
         </div>
+
+        {/* Apps */}
         <div>
-          <h3 className={`text-xl md:text-2xl ${italiana.className}`}>
-            Social
-          </h3>
-          <ul className="text-xl md:text-3xl flex flex-col sm:flex-row justify-start items-center gap-4 transition-all duration-300">
-            <li className="hover:text-blue-900">
-              <FaFacebookSquare />
-            </li>
-            <li className="hover:text-blue-900">
-              <FaInstagram />
-            </li>
-            <li className="hover:text-blue-900">
-              <FaXTwitter />
-            </li>
-            <li className="hover:text-blue-900">
-              <FaYoutube />
-            </li>
-          </ul>
+          <h3 className="text-md font-semibold mb-2">Apps</h3>
+          <p className="text-sm">
+            Download the TaskFlow App for your Desktop or Mobile devices.
+          </p>
+        </div>
+
+        {/* Contact Us */}
+        <div>
+          <h3 className="text-md font-semibold mb-2">Contact us</h3>
+          <p className="text-sm">
+            Need anything? Get in touch and we can help.
+          </p>
         </div>
       </div>
-      <hr />
-      <div>
-        <h5 className="text-sm text-center pt-4">
-          Copyright ©️ Orchid Oasis All Rights Reserved
-        </h5>
+
+      {/* Bottom Section */}
+      <div className="border-t border-[#324563] mt-8 pt-4 flex flex-col md:flex-row justify-center items-center text-sm">
+        {/* Links */}
+        <div className="mt-4 md:mt-0 flex space-x-4">
+          <a href="#" className="hover:underline">
+            Privacy Policy
+          </a>
+          <a href="#" className="hover:underline">
+            Terms
+          </a>
+          <a href="#" className="hover:underline">
+            Copyright © 2024 TaskFlow
+          </a>
+        </div>
+
+        {/* Social Media Icons */}
+        <div className="mt-4 md:mt-0 flex space-x-4">
+          <a href="#">
+            <i className="fab fa-instagram"></i>
+          </a>
+          <a href="#">
+            <i className="fab fa-facebook"></i>
+          </a>
+          <a href="#">
+            <i className="fab fa-linkedin"></i>
+          </a>
+          <a href="#">
+            <i className="fab fa-twitter"></i>
+          </a>
+          <a href="#">
+            <i className="fab fa-youtube"></i>
+          </a>
+        </div>
       </div>
     </footer>
   );
