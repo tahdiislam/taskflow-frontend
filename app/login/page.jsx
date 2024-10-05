@@ -10,7 +10,6 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
 import { useEffect, useState } from "react";
-import italiana from "@/lib/italiana";
 import { toast } from "@/components/ui/use-toast";
 import { Loader2 } from "lucide-react";
 
@@ -44,9 +43,9 @@ export default function Login() {
         // Store user data in localStorage
         window.localStorage.setItem("token", res.data.token);
         window.localStorage.setItem("user_id", res.data.user_id);
-        if (res.data.admin) {
-          window.localStorage.setItem("admin", res.data.admin);
-        }
+        // if (res.data.admin) {
+        //   window.localStorage.setItem("admin", res.data.admin);
+        // }
 
         // Display success toast
         toast({
@@ -67,13 +66,20 @@ export default function Login() {
         }
       }
     } catch (error) {
-      console.error("Login Error:", error);
+      // console.error("Login Error:", error);
 
       // Optionally handle specific error messages
       if (error.response && error.response.status === 400) {
         toast({
           description: "Invalid credentials",
           status: "error",
+          variant: "destructive",
+        });
+      } else if (error.response) {
+        toast({
+          description: error.message,
+          status: "error",
+          variant: "destructive",
         });
       }
     } finally {
@@ -83,12 +89,19 @@ export default function Login() {
 
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px">
+      <div className="hidden bg-muted lg:block">
+        <Image
+          src={loginImg}
+          alt="Image"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
+      </div>
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className={`text-3xl font-bold ${italiana.className}`}>
-              Login
-            </h1>
+            <h1 className="text-3xl font-bold">Login</h1>
             <p className="text-balance text-muted-foreground"></p>
           </div>
           <form onSubmit={handleSubmit} className="grid gap-4">
@@ -142,15 +155,6 @@ export default function Login() {
             </Link>
           </div>
         </div>
-      </div>
-      <div className="hidden bg-muted lg:block">
-        <Image
-          src={loginImg}
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   );

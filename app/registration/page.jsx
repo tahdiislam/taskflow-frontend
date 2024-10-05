@@ -14,7 +14,6 @@ import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { redirect } from "next/navigation";
 import { useUserContext } from "@/contexts/userContext";
-import italiana from "@/lib/italiana";
 
 export default function Registration() {
   const [passError, setPassError] = useState("");
@@ -56,7 +55,12 @@ export default function Registration() {
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+        // console.log(err);
+        toast({
+          description: err.message,
+          status: "error",
+          variant: "destructive",
+        });
       });
 
     // {
@@ -84,12 +88,19 @@ export default function Registration() {
   };
   return (
     <div className="w-full lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px">
+      <div className="hidden bg-muted lg:block">
+        <Image
+          src={loginImg}
+          alt="Image"
+          width="1920"
+          height="1080"
+          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
+      </div>
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-[350px] gap-6">
           <div className="grid gap-2 text-center">
-            <h1 className={`text-3xl font-bold ${italiana.className}`}>
-              Registration
-            </h1>
+            <h1 className="text-3xl font-bold">Registration</h1>
           </div>
           <form onSubmit={handleSubmit} className="grid gap-4">
             <div className="grid gap-2">
@@ -180,15 +191,6 @@ export default function Registration() {
             </Link>
           </div>
         </div>
-      </div>
-      <div className="hidden bg-muted lg:block">
-        <Image
-          src={loginImg}
-          alt="Image"
-          width="1920"
-          height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   );

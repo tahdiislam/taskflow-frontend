@@ -10,7 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useUserContext } from "@/contexts/userContext";
 import axios from "axios";
@@ -40,7 +40,7 @@ const Navbar = () => {
           window.localStorage.removeItem("admin");
           setUser(null);
           console.log("successfully logout");
-          router.push("/login")
+          router.push("/login");
         }
       })
       .catch((err) => {
@@ -55,6 +55,9 @@ const Navbar = () => {
         setUser(null);
         // window.location.reload();
       });
+  };
+  const handleGoTo = (url) => {
+    router.push(`/${url}`);
   };
   return (
     <>
@@ -72,12 +75,14 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <Link
-            href="/project"
-            className="text-muted-foreground transition-colors hover:text-foreground text-lg"
-          >
-            Project
-          </Link>
+          {userToken && (
+            <Link
+              href="/project"
+              className="text-muted-foreground transition-colors hover:text-foreground text-lg"
+            >
+              Project
+            </Link>
+          )}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
@@ -130,14 +135,11 @@ const Navbar = () => {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem className="cursor-pointer">
-                    {" "}
-                    <Link
-                      href={`${admin ? "/admin" : "/profile"}`}
-                      className="text-muted-foreground hover:text-foreground"
-                    >
-                      {admin ? "Admin" : "Profile"}
-                    </Link>
+                  <DropdownMenuItem
+                    onClick={() => handleGoTo(`${admin ? "admin" : "profile"}`)}
+                    className="cursor-pointer"
+                  >
+                    {admin ? "Admin" : "Profile"}
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
