@@ -3,23 +3,6 @@
 import { useUserContext } from "@/contexts/userContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
-
-// DnD
-import {
-  DndContext,
-  DragOverlay,
-  closestCorners,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from "@dnd-kit/core";
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-} from "@dnd-kit/sortable";
 
 import { Inter } from "next/font/google";
 
@@ -28,7 +11,6 @@ import Container from "@/components/Container";
 import Items from "@/components/Item";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
-import { Button } from "@/components/Button";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -187,7 +169,7 @@ export default function Dashboard({ params }) {
       {/* Add Item Modal */}
       <Modal showModal={showAddItemModal} setShowModal={setShowAddItemModal}>
         <div className="flex flex-col w-full items-start gap-y-4">
-          <h1 className="text-gray-800 text-3xl font-bold">Add Item</h1>
+          <h1 className="text-gray-800 text-3xl font-bold">Add Task</h1>
           <Input
             type="text"
             placeholder="Item Title"
@@ -195,7 +177,7 @@ export default function Dashboard({ params }) {
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
           />
-          <Button onClick={onAddItem}>Add Item</Button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onAddItem}>Add Task</button>
         </div>
       </Modal>
       {/* Add container modal */}
@@ -203,8 +185,8 @@ export default function Dashboard({ params }) {
         <h1 className="text-gray-800 text-3xl font-bold">Dashboard</h1>
       </div>
 
-      <div className="mt-10">
-        <div className="grid grid-cols-3 gap-6">
+      <div className="mt-10 overflow-x-auto whitespace-nowrap">
+        <div className="grid grid-cols-3 gap-6 min-w-[1000px]">
           {containers.map((container) => (
             <Container
               id={container.id}

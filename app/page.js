@@ -1,14 +1,12 @@
-/** @format */
-
-import Categories from "@/components/categories";
-import Events from "@/components/events";
+import Events from "@/components/slogan01";
+import Integration from "@/components/integration";
 import TopBanner from "@/components/topBanner";
 
 export default function Home() {
   return (
     <section>
       <TopBanner />
-      <Categories />
+      <Integration/>
       <Events />
     </section>
   );

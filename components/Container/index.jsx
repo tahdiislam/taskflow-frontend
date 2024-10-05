@@ -1,36 +1,16 @@
 /** @format */
 
 import React from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
 import clsx from "clsx";
-import { Button } from "../Button";
+import { Button } from "../ui/button";
+
 
 const Container = ({ id, children, title, description, onAddItem }) => {
-  const {
-    attributes,
-    setNodeRef,
-    listeners,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({
-    id: id,
-    data: {
-      type: "container",
-    },
-  });
+  
   return (
     <div
-      {...attributes}
-      ref={setNodeRef}
-      style={{
-        transition,
-        transform: CSS.Translate.toString(transform),
-      }}
       className={clsx(
-        "w-full h-full p-4 bg-gray-50 rounded-xl flex flex-col gap-y-4 min-h-[70vh]",
-        isDragging && "opacity-50"
+        "w-full h-full p-4 bg-gray-50 rounded-xl flex flex-col gap-y-4 min-h-[70vh]"
       )}
     >
       <div className="flex items-center justify-between">

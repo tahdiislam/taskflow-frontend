@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
         className={montserrat.className}
       >
         <UserWrapper>
-          <div className="bg-[#F1EFEB]">
+          <div className="bg-[#f1faff] selection:bg-blue-200">
             <Navbar />
             {children}
             <Footer />
