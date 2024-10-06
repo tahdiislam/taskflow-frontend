@@ -2,7 +2,7 @@
 "use client";
 import Image from "next/image";
 import Slider from "react-infinite-logo-slider";
-import logo1 from "@/public/integration/Acer-logo.png";
+import logo1 from "@/public/integration/Acer-Logo.png";
 import logo2 from "@/public/integration/Adobe CC.svg";
 import logo3 from "@/public/integration/Figma.svg";
 import logo4 from "@/public/integration/Google Drive.svg";
