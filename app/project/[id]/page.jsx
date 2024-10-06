@@ -9,7 +9,6 @@ import Items from "@/components/Item";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
 import Image from "next/image";
-import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboard({ params }) {
   const { user } = useUserContext();
