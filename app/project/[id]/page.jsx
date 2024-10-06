@@ -20,7 +20,6 @@ export default function Dashboard({ params }) {
   const [description, setDescription] = useState("");
   const [end_date, setEnd_date] = useState("");
   const [project, setProject] = useState({});
-  const [task, setTask] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -48,13 +47,29 @@ export default function Dashboard({ params }) {
 
   // push the task based on status
   const handleSetTask = (index, task) => {
-    const exist = containers[index].items.find((item) => item.id === task.id);
-    if (!exist?.id) {
-      containers[index].items.push({
-        id: task?.id,
-        title: task?.title,
-      });
-    }
+    setContainers((prevContainers) => {
+      // Create a copy of the previous state
+      const newContainers = [...prevContainers];
+
+      // Check if the task already exists in the container
+      const exist = newContainers[index].items.find(
+        (item) => item.id === task.id
+      );
+
+      // If the task doesn't exist, add it to the container
+      if (!exist) {
+        newContainers[index] = {
+          ...newContainers[index],
+          items: [
+            ...newContainers[index].items,
+            { id: task?.id, title: task?.title },
+          ],
+        };
+      }
+
+      // Return the updated containers to update the state
+      return newContainers;
+    });
   };
 
   useEffect(() => {
@@ -76,13 +91,14 @@ export default function Dashboard({ params }) {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/task/list/?project_id=${params?.id}`
         );
-        setTask(response?.data?.results);
+        console.log("🚀 ~ fetchProjects ~ response:", response);
         /* 
         ('Pending', 'Pending'),
         ('In Progress', 'In Progress'),
         ('Completed', 'Completed'),
         */
-        response?.data?.results?.forEach((task) => {
+        response?.data?.forEach((task) => {
+          console.log("🚀 ~ fetchProjects ~ containers:", containers);
           if (task?.status === "Pending") {
             handleSetTask(0, task);
           } else if (task?.status === "In Progress") {
@@ -100,7 +116,7 @@ export default function Dashboard({ params }) {
 
     fetchProjects();
   }, [params?.id]);
-  if (loading) return <p>Loading...</p>;
+  if (loading && !error?.message) return <p>Loading...</p>;
 
   const onAddItem = async () => {
     if (!itemName) return;
@@ -177,7 +193,12 @@ export default function Dashboard({ params }) {
             value={itemName}
             onChange={(e) => setItemName(e.target.value)}
           />
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={onAddItem}>Add Task</button>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={onAddItem}
+          >
+            Add Task
+          </button>
         </div>
       </Modal>
       {/* Add container modal */}
@@ -187,7 +208,7 @@ export default function Dashboard({ params }) {
 
       <div className="mt-10 overflow-x-auto whitespace-nowrap">
         <div className="grid grid-cols-3 gap-6 min-w-[1000px]">
-          {containers.map((container) => (
+          {containers?.map((container) => (
             <Container
               id={container.id}
               title={container.title}
@@ -199,15 +220,16 @@ export default function Dashboard({ params }) {
               }}
             >
               <div className="flex items-start flex-col gap-y-4">
-                {container.items.map((i) => (
-                  <Items
-                    title={i?.title}
-                    id={i?.id}
-                    key={i?.id}
-                    status={container?.title}
-                    handleUpdateTask={handleUpdateTask}
-                  />
-                ))}
+                {container?.items?.length > 0 &&
+                  container?.items?.map((i) => (
+                    <Items
+                      title={i?.title}
+                      id={i?.id}
+                      key={i?.id}
+                      status={container?.title}
+                      handleUpdateTask={handleUpdateTask}
+                    />
+                  ))}
               </div>
             </Container>
           ))}

@@ -16,17 +16,48 @@ import { useUserContext } from "@/contexts/userContext";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { toast } from "@/components/ui/use-toast";
 
 export default function Project() {
   const { user } = useUserContext();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [end_date, setEnd_date] = useState("");
-  const [projects, setProjects] = useState([]);
-  console.log("🚀 ~ Profile ~ projects:", projects)
+  const [projects, setProjects] = useState({});
+  // console.log("🚀 ~ Profile ~ projects:", projects);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [page, setPage] = useState(1);
+
+  const handleLoadProjects = (pg) => {
+    if (pg < 1 || pg > Math.ceil(parseFloat(projects?.count / 8))) return;
+    setLoading(true);
+    setPage((prev) => pg);
+    axios
+      .get(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/?page=${pg}`
+      )
+      .then((res) => {
+        setProjects((prev) => res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    if (!projects?.count) handleLoadProjects(1);
+  }, [user?.user?.id]);
 
   const handleSubmit = async () => {
     const formData = {
@@ -40,32 +71,22 @@ export default function Project() {
         `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/`,
         formData
       );
-      setProjects((prev) => [...prev, response.data]);
-      console.log("Project Created:", response.data);
+
+      if (response.status === 201) {
+        toast({
+          title: "Project created successfully",
+        })
+        setName("");
+        setDescription("");
+        setEnd_date("");
+        handleLoadProjects(1);
+      }
     } catch (error) {
       console.error("Error creating project:", error);
     }
   };
-  useEffect(() => {
-    if (!user?.user?.id) return;
-    const fetchProjects = async () => {
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/?user_id=${user?.user?.id}`
-        );
-        console.log("🚀 ~ fetchProjects ~ response:", response?.data?.results)
-        setProjects(response?.data?.results);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
-    };
 
-    fetchProjects();
-  }, [user?.user?.id]);
   if (loading) return <p>Loading...</p>;
-  //   if (error) return <p>Error loading projects.</p>;
   return (
     <div className="p-10 flex flex-col items-start gap-4">
       <h1 className="text-2xl font-semibold">Create a new project</h1>
@@ -126,9 +147,9 @@ export default function Project() {
       <h1 className="text-2xl font-semibold">Your projects</h1>
       <div class="container mx-auto p-4">
         <div class="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {projects.length ? (
-            projects?.map((project) => (
-              <Link 
+          {projects.count ? (
+            projects?.results?.map((project) => (
+              <Link
                 href={`/project/${project.id}`}
                 key={project.id}
                 class="bg-white border border-gray-200 rounded-lg shadow-md p-6 "
@@ -150,6 +171,38 @@ export default function Project() {
           )}
         </div>
       </div>
+      {projects?.count && (
+        <Pagination className="my-6">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                className={"cursor-pointer"}
+                onClick={() => handleLoadProjects(page - 1)}
+              />
+            </PaginationItem>
+            {Array(Math.ceil(parseFloat(projects?.count / 8)) || 1)
+              ?.fill()
+              ?.map((_, index) => index + 1)
+              ?.map((num) => (
+                <PaginationItem key={num}>
+                  <PaginationLink
+                    onClick={() => handleLoadProjects(num)}
+                    isActive={num === page}
+                    className={"cursor-pointer"}
+                  >
+                    {num}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+            <PaginationItem>
+              <PaginationNext
+                className={"cursor-pointer"}
+                onClick={() => handleLoadProjects(page + 1)}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      )}
     </div>
   );
 }
