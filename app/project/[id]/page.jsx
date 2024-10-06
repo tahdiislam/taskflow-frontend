@@ -3,26 +3,18 @@
 import { useUserContext } from "@/contexts/userContext";
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-import { Inter } from "next/font/google";
-
-// Components
+import Spinner from "@/public/spinner.svg";
 import Container from "@/components/Container";
 import Items from "@/components/Item";
 import Modal from "@/components/Modal";
 import Input from "@/components/Input";
-
-const inter = Inter({ subsets: ["latin"] });
+import Image from "next/image";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboard({ params }) {
   const { user } = useUserContext();
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [end_date, setEnd_date] = useState("");
-  const [project, setProject] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [containers, setContainers] = useState([
     {
       id: 1,
@@ -40,10 +32,10 @@ export default function Dashboard({ params }) {
       items: [],
     },
   ]);
-  const [currentContainerId, setCurrentContainerId] = useState();
   const [itemName, setItemName] = useState("");
   const [showAddItemModal, setShowAddItemModal] = useState(false);
   const [status, setStatus] = useState("Pending");
+  const [taskUpdateLoading, setTaskUpdateLoading] = useState(true);
 
   // push the task based on status
   const handleSetTask = (index, task) => {
@@ -75,30 +67,17 @@ export default function Dashboard({ params }) {
   useEffect(() => {
     if (!params?.id) return;
     const fetchProjects = async () => {
-      // load current project by project id
-      try {
-        const response = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/${params?.id}`
-        );
-        setProject(response?.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
       // load all task based on project id
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/task/list/?project_id=${params?.id}`
         );
-        console.log("🚀 ~ fetchProjects ~ response:", response);
         /* 
         ('Pending', 'Pending'),
         ('In Progress', 'In Progress'),
         ('Completed', 'Completed'),
         */
         response?.data?.forEach((task) => {
-          console.log("🚀 ~ fetchProjects ~ containers:", containers);
           if (task?.status === "Pending") {
             handleSetTask(0, task);
           } else if (task?.status === "In Progress") {
@@ -116,7 +95,6 @@ export default function Dashboard({ params }) {
 
     fetchProjects();
   }, [params?.id]);
-  if (loading && !error?.message) return <p>Loading...</p>;
 
   const onAddItem = async () => {
     if (!itemName) return;
@@ -131,7 +109,6 @@ export default function Dashboard({ params }) {
         `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/task/list/`,
         data
       );
-      console.log("🚀 ~ fetchProjects ~ response:", response?.data);
       if (response?.status === 201) {
         if (response?.data?.status === "Pending") {
           handleSetTask(0, response?.data);
@@ -159,6 +136,7 @@ export default function Dashboard({ params }) {
   };
 
   const handleUpdateTask = async (id, status, prev_status) => {
+    setTaskUpdateLoading(false);
     try {
       const response = await axios.patch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/task/update-status/${id}/`,
@@ -173,15 +151,26 @@ export default function Dashboard({ params }) {
           handleSetUpdateTask(id, prev_status, 2);
         }
       }
+      setTaskUpdateLoading(true);
     } catch (err) {
       console.log("🚀 ~ onAddItem ~ err:", err);
+      setTaskUpdateLoading(true);
     }
   };
-
+  if (loading && !error?.message) return;
+  <section className="h-screen flex justify-center items-center">
+    <Image src={Spinner} alt="Spinner" className="w-12 h-12" />
+  </section>;
   return (
     <div className="mx-auto max-w-7xl py-10">
       {/* Add Container Modal */}
-
+      <section
+        className={`flex justify-center items-center ${
+          taskUpdateLoading && "hidden"
+        }`}
+      >
+        <Image src={Spinner} alt="Spinner" className="w-10 h-10" />
+      </section>
       {/* Add Item Modal */}
       <Modal showModal={showAddItemModal} setShowModal={setShowAddItemModal}>
         <div className="flex flex-col w-full items-start gap-y-4">
@@ -205,7 +194,6 @@ export default function Dashboard({ params }) {
       <div className="flex items-center justify-between gap-y-2">
         <h1 className="text-gray-800 text-3xl font-bold">Dashboard</h1>
       </div>
-
       <div className="mt-10 overflow-x-auto whitespace-nowrap">
         <div className="grid grid-cols-3 gap-6 min-w-[1000px]">
           {containers?.map((container) => (
@@ -215,7 +203,6 @@ export default function Dashboard({ params }) {
               key={container.id}
               onAddItem={() => {
                 setShowAddItemModal(true);
-                setCurrentContainerId(container.id);
                 setStatus(container.title);
               }}
             >

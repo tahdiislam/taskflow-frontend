@@ -14,18 +14,24 @@ export default function TopBanner() {
       <div className="flex flex-col lg:flex-row justify-between items-center px-4 sm:px-10 md:px-20 relative z-10">
         <div className="py-10 md:py-12 lg:w-1/2">
           <h1 className={`text-4xl md:text-5xl text-white font-medium`}>
-            <span>TaskFlow brings all your tasks, teammates, and tools together</span>
+            <span>
+              TaskFlow brings all your tasks, teammates, and tools together
+            </span>
           </h1>
-          <Link href="/registration" ><button className="text-base py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition ease-in-out duration-500 mt-4">JOIN NOW</button></Link>
+          <Link href="/registration">
+            <button className="text-base py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white transition ease-in-out duration-500 mt-4">
+              JOIN NOW
+            </button>
+          </Link>
         </div>
         <div>
           <Image
             src={TaskBanner}
             alt="Flower Banner"
-            height={500}
-            width={500}
+            layout="responsive"
+            width={1920}
+            height={1080}
             className="w-full h-auto xl:h-[90vh]"
-            placeholder="blur"
             quality={100}
           />
         </div>
