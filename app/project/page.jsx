@@ -41,14 +41,16 @@ export default function Project() {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [createLoading, setCreateLoading] = useState(false);
+  const [minDate, setMinDate] = useState("");
 
   const handleLoadProjects = (pg) => {
     if (pg < 1 || pg > Math.ceil(parseFloat(projects?.count / 8))) return;
     setLoading(true);
+    if (!user?.user?.id) return;
     setPage((prev) => pg);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/?page=${pg}&user_id=${user?.user?.id}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/?page=${pg}&user_id=${user?.user?.id}`,
       )
       .then((res) => {
         setProjects((prev) => res?.data);
@@ -61,7 +63,7 @@ export default function Project() {
 
   useEffect(() => {
     if (!projects?.count) handleLoadProjects(1);
-  }, [user?.user?.id]);
+  }, [user?.user?.id, projects?.count]);
 
   const handleSubmit = async () => {
     setCreateLoading(true);
@@ -92,6 +94,22 @@ export default function Project() {
       setCreateLoading(false);
     }
   };
+
+  useEffect(() => {
+    // Get today's date in the local time zone
+    const today = new Date();
+
+    // Format the date as YYYY-MM-DD
+    const formattedDate =
+      today.getFullYear() +
+      "-" +
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "-" +
+      String(today.getDate()).padStart(2, "0");
+
+    // Set the min date for the input field
+    setMinDate(formattedDate);
+  }, []); // Runs once when the component is mounted
 
   if (loading)
     return (
@@ -148,6 +166,7 @@ export default function Project() {
                 type="date"
                 name="end_date"
                 className="col-span-3"
+                min={minDate}
               />
             </div>
           </div>
@@ -190,7 +209,7 @@ export default function Project() {
               </Link>
             ))
           ) : (
-            <h1 className="text-2xl font-semibold">No projects found</h1>
+            <h1 className="text-2xl font-semibold py-20">No projects found</h1>
           )}
         </div>
       </div>
