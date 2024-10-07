@@ -65,6 +65,7 @@ export default function Dashboard({ params }) {
 
   useEffect(() => {
     if (!params?.id) return;
+    setLoading(false);
     const fetchProjects = async () => {
       // load all task based on project id
       try {
@@ -85,14 +86,13 @@ export default function Dashboard({ params }) {
             handleSetTask(2, task);
           }
         });
-        setLoading(false);
       } catch (err) {
         setError(err);
-        setLoading(false);
       }
     };
 
     fetchProjects();
+    setLoading(false);
   }, [params?.id]);
 
   const onAddItem = async () => {
@@ -156,10 +156,14 @@ export default function Dashboard({ params }) {
       setTaskUpdateLoading(true);
     }
   };
-  if (loading && !error?.message) return;
-  <section className="h-screen flex justify-center items-center">
-    <Image src={Spinner} alt="Spinner" className="w-12 h-12" />
-  </section>;
+  if (loading) {
+    console.log("🚀 ~ Dashboard ~ loading:", loading);
+    return (
+      <section className="py-80 flex justify-center items-center">
+        <Image src={Spinner} alt="Spinner" className="w-12 h-12" />
+      </section>
+    );
+  }
   return (
     <div className="mx-auto max-w-7xl py-10">
       {/* Add Container Modal */}

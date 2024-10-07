@@ -26,6 +26,9 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { toast } from "@/components/ui/use-toast";
+import Image from "next/image";
+import Spinner from "@/public/spinner.svg";
+import { Loader2 } from "lucide-react";
 
 export default function Project() {
   const { user } = useUserContext();
@@ -37,6 +40,7 @@ export default function Project() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const [createLoading, setCreateLoading] = useState(false);
 
   const handleLoadProjects = (pg) => {
     if (pg < 1 || pg > Math.ceil(parseFloat(projects?.count / 8))) return;
@@ -44,7 +48,7 @@ export default function Project() {
     setPage((prev) => pg);
     axios
       .get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/?page=${pg}`
+        `${process.env.NEXT_PUBLIC_BACKEND_URL_PROD}/project/list/?page=${pg}&user_id=${user?.user?.id}`
       )
       .then((res) => {
         setProjects((prev) => res?.data);
@@ -60,6 +64,7 @@ export default function Project() {
   }, [user?.user?.id]);
 
   const handleSubmit = async () => {
+    setCreateLoading(true);
     const formData = {
       name: name,
       description: description,
@@ -75,18 +80,25 @@ export default function Project() {
       if (response.status === 201) {
         toast({
           title: "Project created successfully",
-        })
+        });
         setName("");
         setDescription("");
         setEnd_date("");
         handleLoadProjects(1);
+        setCreateLoading(false);
       }
     } catch (error) {
       console.error("Error creating project:", error);
+      setCreateLoading(false);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading)
+    return (
+      <section className="py-80 flex justify-center items-center">
+        <Image src={Spinner} alt="Spinner" className="w-12 h-12" />
+      </section>
+    );
   return (
     <div className="p-10 flex flex-col items-start gap-4">
       <h1 className="text-2xl font-semibold">Create a new project</h1>
@@ -140,7 +152,18 @@ export default function Project() {
             </div>
           </div>
           <DialogFooter>
-            <Button onClick={handleSubmit}>Save changes</Button>
+            <Button
+              onClick={handleSubmit}
+              className="w-full bg-blue-800 hover:bg-blue-700 transition-all duration-300 disabled:bg-blue-300"
+              disabled={createLoading}
+            >
+              <Loader2
+                className={`${
+                  !createLoading ? "hidden" : "block"
+                } mr-2 h-4 w-4 animate-spin`}
+              />
+              Save changes
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -171,7 +194,7 @@ export default function Project() {
           )}
         </div>
       </div>
-      {projects?.count && (
+      {projects?.count ? (
         <Pagination className="my-6">
           <PaginationContent>
             <PaginationItem>
@@ -202,6 +225,8 @@ export default function Project() {
             </PaginationItem>
           </PaginationContent>
         </Pagination>
+      ) : (
+        <></>
       )}
     </div>
   );

@@ -8,8 +8,9 @@ const UserContext = createContext(null);
 
 export function UserWrapper({ children }) {
   let [user, setUser] = useState("Guest");
+  console.log("🚀 ~ UserWrapper ~ user:", user)
   const [userId, setUserId] = useState(null);
-  const [userLoading, setUserLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
   const [admin, setAdmin] = useState(null);
 
   useEffect(() => {

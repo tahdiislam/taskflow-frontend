@@ -34,7 +34,7 @@ const TABS = {
 };
 
 export default function Profile({ params }) {
-  const { user } = useUserContext();
+  const { user, userLoading } = useUserContext();
   const [selectedTab, setSelectedTabs] = useState(
     (typeof window !== "undefined" &&
       window.localStorage.getItem("profile_tab")) ||
@@ -56,6 +56,7 @@ export default function Profile({ params }) {
       window.localStorage.setItem("profile_tab", tab);
     }
   };
+
   const handleLoadOrders = (pg = 1) => {
     if (!user?.id) return;
     if (pg < 1 || pg > Math.ceil(parseFloat(orders?.count / 8))) return;
@@ -79,6 +80,15 @@ export default function Profile({ params }) {
 
   const formattedDate = (isoDateString) =>
     format(new Date(isoDateString), "MMMM dd, yyyy HH:mm:ss a");
+
+  console.log("🚀 ~ Profile ~ userLoading:", userLoading);
+  if (userLoading) {
+    return (
+      <section className="py-80 flex justify-center items-center">
+        <Image src={Spinner} alt="Spinner" className="w-12 h-12" />
+      </section>
+    );
+  }
   return (
     <div className="flex w-full flex-col">
       <main className="flex min-h-[calc(70vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10">
